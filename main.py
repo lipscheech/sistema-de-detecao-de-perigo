@@ -1,6 +1,6 @@
 from threading import Thread
 import keyboard as kb
-from controleMotor import setMotorLeft, setMotorRight, exit, setMotorMode 
+from controleMotor import setMotorLeft, setMotorRight, exit, setMotorMode, over 
 import time
 
 def controle():
