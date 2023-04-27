@@ -207,7 +207,7 @@ def exit():
    io.output(R_R_EN, False)
    io.cleanup()
 
-PWM_NOW = 25
+PWM_NOW = 50
 
 def over(value, plus):
    value = value * 100 + plus
@@ -240,7 +240,7 @@ def controleStart():
          
          elif kb.is_pressed('right'):
 
-               setMotorLeft(.10)
+               setMotorLeft(.1)
                setMotorRight(.05)
          
          elif kb.is_pressed('down'):
