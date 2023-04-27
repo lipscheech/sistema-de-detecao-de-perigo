@@ -1,6 +1,6 @@
 from threading import Thread
 import keyboard as kb
-from controleMotor import setMotorLeft, setMotorRight, exit, setMotorMode, over 
+from controleMotor import setMotorLeft, setMotorRight, exit, setMotorMode, over, controleStart 
 import time
 
 def controle():
@@ -49,6 +49,6 @@ def controle():
             time.sleep(.5)
 
 
-controleMotorThread = Thread(target=controle)
+controleMotorThread = Thread(target=controleStart)
 
 controleMotorThread.start()

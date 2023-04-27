@@ -217,6 +217,50 @@ def over(value, plus):
        value = -PWM_NOW
    return np.round(value* .01, 2)
 
+def controleStart():
+      vel_l = 0
+      vel_r = 0
+      while True:
+         #   input_ = input("set state:")
+         if kb.is_pressed('space'):
+               setMotorLeft(0)
+               setMotorRight(0)
+               exit()
+               break
+         elif kb.is_pressed('left'):
+               setMotorLeft(.05)
+               setMotorRight(.1)
+
+         elif kb.is_pressed('up'):
+               vel_l = over(vel_l, 1)
+               vel_r = over(vel_r, 1)
+
+               setMotorLeft(vel_l)
+               setMotorRight(vel_r)
+         
+         elif kb.is_pressed('right'):
+
+               setMotorLeft(.10)
+               setMotorRight(.05)
+         
+         elif kb.is_pressed('down'):
+               vel_l = over(vel_l, -1)
+               vel_r = over(vel_r, -1)
+
+               setMotorLeft(vel_l)
+               setMotorRight(vel_r)
+         else:
+               if vel_l > 0:
+                  vel_l = over(vel_l, -1)
+                  vel_r = over(vel_r, -1)
+               elif vel_r < 0:
+                  vel_l = over(vel_l, 1)
+                  vel_r = over(vel_r, 1)
+               setMotorLeft(vel_l)
+               setMotorRight(vel_r)
+         print(vel_l, vel_r)
+         time.sleep(.5)
+
 
 # Ende des Programmes
 
