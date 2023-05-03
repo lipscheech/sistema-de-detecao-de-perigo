@@ -27,6 +27,24 @@ def postprocess(frame, mask, WIDTH, HEIGHT):
 
     return cv2.addWeighted(frame, .75, asarray(mask), .25, 0)
 
+def startInterpreter():
+    from argparse import ArgumentParser
+
+    parser = ArgumentParser()
+    parser.add_argument(
+        "--path", default="model.tflite", help="path to model")
+    parser.add_argument('--camera_width', type=int, default=320,
+                        help='USB Camera resolution (width). (Default=640)')
+    parser.add_argument('--camera_height', type=int, default=240,
+                        help='USB Camera resolution (height). (Default=360)')
+    parser.add_argument('--cam_fps', type=int, default=30,
+                        help='FPS (Default=15)')
+    parser.add_argument("--thread", type=int, default=4,
+                        help="Number of Threads")
+    args = parser.parse_args()
+
+    run(PATH=args.path, FPS=args.cam_fps, WIDTH=args.camera_width, HEIGHT=args.camera_height, THREAD=args.thread)
+
 def run(PATH="model.tflite", FPS=30, WIDTH=320, HEIGHT=240, THREAD=4):
     interpreter = Interpreter(model_path=PATH, num_threads=THREAD)
     interpreter.allocate_tensors()
