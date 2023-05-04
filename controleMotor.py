@@ -136,7 +136,7 @@ def exit():
    io.output(R_R_EN, False)
    io.cleanup()
 
-PWM_NOW = 50
+PWM_NOW = 75
 
 def over(value, plus):
    value = value * 100 + plus
@@ -162,8 +162,8 @@ def controleStart(flag=None):
                   setMotorRight(.1)
 
             elif kb.is_pressed('up'):
-                  vel_l = over(vel_l, 1)
-                  vel_r = over(vel_r, 1)
+                  vel_l = over(vel_l, 5)
+                  vel_r = over(vel_r, 5)
 
                   setMotorLeft(vel_l)
                   setMotorRight(vel_r)
@@ -174,18 +174,18 @@ def controleStart(flag=None):
                   setMotorRight(.05)
             
             elif kb.is_pressed('down'):
-                  vel_l = over(vel_l, -1)
-                  vel_r = over(vel_r, -1)
+                  vel_l = over(vel_l, -10)
+                  vel_r = over(vel_r, -10)
 
                   setMotorLeft(vel_l)
                   setMotorRight(vel_r)
             else:
                   if vel_l > 0:
-                     vel_l = over(vel_l, -1)
-                     vel_r = over(vel_r, -1)
+                     vel_l = over(vel_l, -10)
+                     vel_r = over(vel_r, -10)
                   elif vel_r < 0:
-                     vel_l = over(vel_l, 1)
-                     vel_r = over(vel_r, 1)
+                     vel_l = over(vel_l, 5)
+                     vel_r = over(vel_r, 5)
                   setMotorLeft(vel_l)
                   setMotorRight(vel_r)
             print(vel_l, vel_r)
