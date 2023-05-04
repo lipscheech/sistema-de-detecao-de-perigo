@@ -62,8 +62,10 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None):
         condition = True
         if flag is not None:
             if condition and flag.empty():
+                print("Escrevendo na fila")
                 flag.put(1)
             elif ~flag.empty():
+                print("Limpando fila")
                 flag.get()
 
         fps = 1 / (time() - frame_time)
