@@ -16,24 +16,24 @@ PWM_MAX = 100
 
 io.setwarnings(False)
 
-L_L_EN = 22 # L_L_EN
+L_L_EN = 17 # L_L_EN
 io.setup(L_L_EN, io.OUT)
 io.output(L_L_EN, True)
 
-L_R_EN = 23 # L_R_EN
+L_R_EN = 18 # L_R_EN
 io.setup(L_R_EN, io.OUT)
 io.output(L_R_EN, True)
 
-R_L_EN = 13 # R_L_EN
+R_L_EN = 6 # R_L_EN
 io.setup(R_L_EN, io.OUT)
 io.output(R_L_EN, True)
 
-R_R_EN = 19 # R_R_EN
+R_R_EN = 12 # R_R_EN
 io.setup(R_R_EN, io.OUT)
 io.output(R_R_EN, True)
 
-L_L_PWM = 18 # leftmotorpwm_pin_l
-L_R_PWM = 17 # leftmotorpwm_pin_r
+L_L_PWM = 22 # leftmotorpwm_pin_l
+L_R_PWM = 23 # leftmotorpwm_pin_r
 
 io.setup(L_L_PWM, io.OUT)
 io.setup(L_R_PWM, io.OUT)
@@ -44,8 +44,8 @@ leftmotorpwm_r.start(0)
 leftmotorpwm_l.ChangeDutyCycle(0)
 leftmotorpwm_r.ChangeDutyCycle(0)
 
-R_L_PWM = 12 # rightmotorpwm_pin_l
-R_R_PWM = 6 # rightmotorpwm_pin_r
+R_L_PWM = 13 # rightmotorpwm_pin_l
+R_R_PWM = 19 # rightmotorpwm_pin_r
 
 io.setup(R_L_PWM, io.OUT)
 io.setup(R_R_PWM, io.OUT)
