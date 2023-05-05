@@ -77,8 +77,6 @@ def controleStart(queueKey=None, flag=None, quit=None):
     vel_l = vel_l_new = vel_r = vel_r_new = 0
     key = lastkey = "none"
 
-    flag.set()
-
     while not quit.is_set():
         sleep(.25)
 
@@ -123,7 +121,7 @@ def controleStart(queueKey=None, flag=None, quit=None):
             except:
                 key = "none"
 
-        print(f"velocidade: left: {vel_l}  right: {vel_r}")
+        print("velocidade: left: {vel_l}  right: {vel_r}")
     print("Ending motor and closing")
     exit()
 

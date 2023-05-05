@@ -37,7 +37,7 @@ print("Starting Motor Thread")
 controleMotorThread.start()
 
 print("Starting main loop")
-while True:
+while not is_pressed("space"):
     
     try:
         if is_pressed('left'):
@@ -57,8 +57,6 @@ while True:
     except:
         pass
 
-    if is_pressed("space"):
-        break
     sleep(.25)
 
 print("Ending main loop")
