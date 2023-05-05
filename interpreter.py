@@ -47,8 +47,8 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, WIDTH)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, HEIGHT)
 
-    condition_time = time()
     condition = False
+    count = 0
 
     print("Starting model loop")
     while not quit.is_set():
@@ -70,13 +70,16 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
         # image = postprocess(frame, mask, WIDTH, HEIGHT)
         
         #TODO: PUT BLOCK LOGIC
-        if int(frame_time - condition_time) % 10 == 0:
+        if count == 50:
             if condition:
                 print("setting condition false")
                 condition = False
             else:
                 print("setting condition true")
                 condition = True
+            count = 0
+        else:
+            count += 1
 
         # (UN)BLOCK MOTOR
         if condition and not flag.is_set():
@@ -86,7 +89,7 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
 
         fps = 1 / (time() - frame_time)
 
-        print(f"fps:{fps} blocked: {condition} \n {frame_time - condition_time}" )
+        print(f"fps:{fps} blocked: {condition}" )
         # cv2.putText(image, str(fps), (5, 16),
         #             cv2.FONT_HERSHEY_SIMPLEX, .75, (255, 255), 3, cv2.LINE_AA)
 

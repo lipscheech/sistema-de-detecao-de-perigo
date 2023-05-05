@@ -81,6 +81,7 @@ def controleStart(queueKey=None, flag=None, quit=None):
         sleep(.25)
 
         if not flag.is_set() or flag is None:
+            print("dentro da flag")
             if key == "up":
                 vel_l_new += CHANGE_VALUE
                 vel_r_new += CHANGE_VALUE
@@ -117,7 +118,7 @@ def controleStart(queueKey=None, flag=None, quit=None):
             lastKey = key
 
             try:
-                key = key.get(0)
+                key = key.get_nowait(0)
             except:
                 key = "none"
 

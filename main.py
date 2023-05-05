@@ -38,22 +38,21 @@ controleMotorThread.start()
 
 print("Starting main loop")
 while not is_pressed("space"):
-    
     try:
         if is_pressed('left'):
-            key.put('left')
+            key.put_nowait('left')
             print("left")
         elif is_pressed('up'):
-            key.put('up')
+            key.put_nowait('up')
             print("up")
         elif is_pressed('right'):
-            key.put('right')
+            key.put_nowait('right')
             print("right")
         elif is_pressed('down'):
-            key.put('down')
+            key.put_nowait('down')
             print("down")
         else:
-            key.put('none')
+            key.put_nowait('none')
     except:
         pass
 
