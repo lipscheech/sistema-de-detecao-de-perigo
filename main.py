@@ -1,8 +1,9 @@
 from threading import Thread, Event
 from controleMotor import controleStart
+from keyboard import is_pressed
 from interpreter import run
 from queue import Queue
-from keyboard import is_pressed
+from time import sleep
 
 flag = Event()
 quit = Event()
@@ -25,29 +26,32 @@ controleMotorThread = Thread(
     )
 
 
-
 print("Starting Model Thread")
 startInterpreterThread.start()
 
 flag.wait()
+flag.clear()
 
 print("Starting Motor Thread")
 
 controleMotorThread.start()
 
-flag.wait()
-
 print("Starting main loop")
 while True:
+    
     try:
         if is_pressed('left'):
             key.put('left')
+            print("left")
         elif is_pressed('up'):
             key.put('up')
+            print("up")
         elif is_pressed('right'):
             key.put('right')
+            print("right")
         elif is_pressed('down'):
             key.put('down')
+            print("down")
         else:
             key.put('none')
     except:
@@ -55,6 +59,7 @@ while True:
 
     if is_pressed("space"):
         break
+    sleep(.25)
 
 print("Ending main loop")
 

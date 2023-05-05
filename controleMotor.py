@@ -78,10 +78,9 @@ def controleStart(queueKey=None, flag=None, quit=None):
     key = lastkey = "none"
 
     flag.set()
-    flag.clear()
 
     while not quit.is_set():
-        sleep(.5)
+        sleep(.25)
 
         if not flag.is_set() or flag is None:
             if key == "up":
@@ -124,7 +123,7 @@ def controleStart(queueKey=None, flag=None, quit=None):
             except:
                 key = "none"
 
-            print(vel_l, vel_r)
+        print(f"velocidade: left: {vel_l}  right: {vel_r}")
     print("Ending motor and closing")
     exit()
 

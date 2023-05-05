@@ -37,7 +37,6 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
     print("Ending model load")
 
     flag.set()
-    flag.clear()
 
     output_index = interpreter.get_output_details()[0]['index']
     input_index = interpreter.get_input_details()[0]['index']
@@ -71,7 +70,7 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
         # image = postprocess(frame, mask, WIDTH, HEIGHT)
         
         #TODO: PUT BLOCK LOGIC
-        if (condition_time - frame_time) % 100 == 0:
+        if (frame_time - condition_time) % 5 == 0:
             if condition:
                 print("setting condition false")
                 condition = False
@@ -87,7 +86,7 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
 
         fps = 1 / (time() - frame_time)
 
-        print(fps)
+        print(f"fps:{fps} blocked: {condition}")
         # cv2.putText(image, str(fps), (5, 16),
         #             cv2.FONT_HERSHEY_SIMPLEX, .75, (255, 255), 3, cv2.LINE_AA)
 
