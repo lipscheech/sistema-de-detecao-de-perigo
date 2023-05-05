@@ -152,7 +152,7 @@ def controleStart(flag=None):
       while True:
          if flag.empty() or flag is None:
             #   input_ = input("set state:")
-            if kb.is_pressed('space'):
+            if ~flag.empty():
                   setMotorLeft(0)
                   setMotorRight(0)
                   exit()
