@@ -34,9 +34,12 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
     flag.wait()
     quit.wait()
 
+    print("Starting model load")
     interpreter = Interpreter(model_path=PATH, num_threads=THREAD)
     interpreter.allocate_tensors()
+    print("Ending model load")
     flag.set()
+
     output_index = interpreter.get_output_details()[0]['index']
     input_index = interpreter.get_input_details()[0]['index']
     input_w, input_h = interpreter.get_input_details()[0]["shape"][1:3]
@@ -48,7 +51,10 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
 
     condition_time = time()
     condition = False
+
     flag.clear()
+
+    print("Starting model loop")
     while not quit.is_set():
         frame_time = time()
 
@@ -89,6 +95,7 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
         #             cv2.FONT_HERSHEY_SIMPLEX, .75, (255, 255), 3, cv2.LINE_AA)
 
         # cv2.imshow("segmentation", image)
+    print("Ending model loop")
     cap.release()
     cv2.destroyAllWindows()
 

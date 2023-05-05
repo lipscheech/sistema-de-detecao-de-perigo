@@ -8,24 +8,36 @@ flag = Event()
 quit = Event()
 key = Queue(1)
 
+print("Creating Model Thread")
+
 startInterpreterThread = Thread(
     target=run,
     args=([
     "fold_0_alpha_0.5_lr_1e-04_regularizer_l1_1e-04_l2_1e-05.tflite",
     30, 320, 240, 4, flag, quit])
     )
-flag.wait()
-while flag.is_set():
-    pass
+
+print("Creating Motor Thread")
 
 controleMotorThread = Thread(
     target=controleStart,
     args=([key, flag, quit])
     )
 
+flag.wait()
+
+print("Starting Model Thread")
+
+startInterpreterThread.start()
+
+while not flag.is_set():
+    pass
+
+print("Starting Motor Thread")
 
 controleMotorThread.start()
-startInterpreterThread.start()
+
+print("Starting main loop")
 
 while True:
     try:
@@ -44,5 +56,7 @@ while True:
 
     if kb.is_pressed("space"):
         break
+
+print("Ending main loop")
 
 quit.set()

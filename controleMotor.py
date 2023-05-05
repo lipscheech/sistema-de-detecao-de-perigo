@@ -72,6 +72,7 @@ PWM_MIN = 25
 CHANGE_VALUE = 1
 
 def controleStart(queueKey=None, flag=None, quit=None):
+    print("Starting motor")
     flag.wait()
     quit.wait()
     vel_l = vel_l_new = vel_r = vel_r_new = 0
@@ -122,6 +123,7 @@ def controleStart(queueKey=None, flag=None, quit=None):
                 key = "none"
 
             print(vel_l, vel_r)
+    print("Ending motor and closing")
     exit()
 
 if __name__ == "__main__":
