@@ -3,7 +3,7 @@ from numpy import float32, uint8, expand_dims
 from tensorflow.lite.python.interpreter import Interpreter
 from PIL.Image import fromarray
 from time import time
-import keyboard as kb
+
 
 def postprocess(frame, mask, WIDTH, HEIGHT):
     from numpy import asarray, stack
@@ -62,7 +62,7 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None):
         
         condition = True
         if flag is not None:
-            if kb.is_pressed('space') and flag.empty():
+            if condition and flag.empty():
                 print("Escrevendo na fila")
                 flag.put(1)
             elif ~flag.empty():
