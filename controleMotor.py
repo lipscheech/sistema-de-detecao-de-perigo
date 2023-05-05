@@ -82,7 +82,7 @@ def controleStart(queueKey=None, flag=None, quit=None):
 
         if not flag.is_set() or flag is None:
             try:
-                key = key.get_nowait()
+                key = queueKey.get_nowait()
                 print(f"Getting {key}")
             except:
                 key = "none"
