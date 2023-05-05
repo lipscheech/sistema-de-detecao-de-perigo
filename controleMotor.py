@@ -81,7 +81,12 @@ def controleStart(queueKey=None, flag=None, quit=None):
         sleep(.25)
 
         if not flag.is_set() or flag is None:
-            print("dentro da flag")
+            try:
+                key = key.get_nowait()
+                print(f"Getting {key}")
+            except:
+                key = "none"
+
             if key == "up":
                 vel_l_new += CHANGE_VALUE
                 vel_r_new += CHANGE_VALUE
@@ -116,11 +121,6 @@ def controleStart(queueKey=None, flag=None, quit=None):
             vel_r = vel_r_new
 
             lastKey = key
-
-            try:
-                key = key.get_nowait()
-            except:
-                key = "none"
 
         print(f"velocidade: left: {vel_l}  right: {vel_r}")
     print("Ending motor and closing")
