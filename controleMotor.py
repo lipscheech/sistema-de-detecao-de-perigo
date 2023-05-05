@@ -54,8 +54,7 @@ rightmotorpwm_r = io.PWM(R_R_PWM, 100)
 rightmotorpwm_r.start(0)
 rightmotorpwm_r.ChangeDutyCycle(0)
 
-PWM_MAX = 75
-PWM_MIN = 25
+
 
 def setMotor(power_l, power_r):
     leftmotorpwm_r.ChangeDutyCycle(power_l)
@@ -68,48 +67,42 @@ def exit():
     io.output(R_R_EN, False)
     io.cleanup()
 
+PWM_MAX = 75
+PWM_MIN = 25
+CHANGE_VALUE = 1
+
 def controleStart(queueKey=None, flag=None, quit=None):
     flag.wait()
     quit.wait()
-    vel_l = vel_r = 0
+    vel_l = vel_l_new = vel_r = vel_r_new = 0
     key = lastkey = "none"
 
     while not quit.is_set():
         sleep(.5)
 
         if flag.empty() or flag is None:
-            vel_l_new = vel_l
-            vel_r_new = vel_r
-
             if key == "up":
-                vel_l_new += 1
-                vel_r_new += 1
-                lastKey = "up"
+                vel_l_new += CHANGE_VALUE
+                vel_r_new += CHANGE_VALUE
             elif key == "down":
-                vel_l_new -= 1
-                vel_r_new -=1
-                lastKey = "down"
+                vel_l_new -= CHANGE_VALUE
+                vel_r_new -= CHANGE_VALUE
             elif vel_l == 0 and vel_r == 0 and key in ["left", "right"] and lastKey not in ["left", "right"]:
                 if key == "right":
-                    vel_l_new += 1
-                    vel_r_new -=1
-                    lastKey = "right"
+                    vel_l_new += CHANGE_VALUE
+                    vel_r_new -= CHANGE_VALUE
                 elif key == "left":
-                    vel_l_new -= 1
-                    vel_r_new += 1
-                    lastKey = "left"
+                    vel_l_new -= CHANGE_VALUE
+                    vel_r_new += CHANGE_VALUE
             elif vel_l == vel_l_new and vel_r == vel_r_new:
                 if vel_l > 0:
-                    vel_l_new -= 1
+                    vel_l_new -= CHANGE_VALUE
                 elif vel_l < 0:
-                    vel_l_new += 1
+                    vel_l_new += CHANGE_VALUE
                 if vel_r > 0:
-                    vel_r_new -=1
+                    vel_r_new -= CHANGE_VALUE
                 elif vel_r < 0:
-                    vel_r_new += 1
-                lastKey = "none"
-            else:
-                lastKey = "none"
+                    vel_r_new += CHANGE_VALUE
 
             if vel_l_new > PWM_MAX or vel_l_new < PWM_MIN:
                 vel_l_new = vel_l

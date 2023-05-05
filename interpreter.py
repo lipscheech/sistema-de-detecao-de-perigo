@@ -1,32 +1,32 @@
 import cv2
 from numpy import float32, uint8, expand_dims
 from tensorflow.lite.python.interpreter import Interpreter
-from PIL.Image import fromarray
 from time import time
 
-def postprocess(frame, mask, WIDTH, HEIGHT):
-    from numpy import asarray, stack
-    from seaborn import color_palette
+# def postprocess(frame, mask, WIDTH, HEIGHT):
+#     from PIL.Image import fromarray
+#     from numpy import asarray, stack
+#     from seaborn import color_palette
 
-    colorList = color_palette(None, 2)
-    colorListAux = []
+#     colorList = color_palette(None, 2)
+#     colorListAux = []
 
-    for i in colorList:
-        colorListAux.append(int(i[0] * 255))
-        colorListAux.append(int(i[1] * 255))
-        colorListAux.append(int(i[2] * 255))
-    colorList = None
+#     for i in colorList:
+#         colorListAux.append(int(i[0] * 255))
+#         colorListAux.append(int(i[1] * 255))
+#         colorListAux.append(int(i[2] * 255))
+#     colorList = None
 
-    print(colorListAux)
+#     print(colorListAux)
 
-    mask = cv2.resize(mask, (WIDTH, HEIGHT), interpolation=cv2.INTER_NEAREST)
-    mask = stack([mask] * 3, axis=-1)
-    mask[mask == 1] = 255
-    mask = fromarray(mask, mode="P")
-    mask.putpalette(colorListAux)
-    mask = mask.convert("RGB")
+#     mask = cv2.resize(mask, (WIDTH, HEIGHT), interpolation=cv2.INTER_NEAREST)
+#     mask = stack([mask] * 3, axis=-1)
+#     mask[mask == 1] = 255
+#     mask = fromarray(mask, mode="P")
+#     mask.putpalette(colorListAux)
+#     mask = mask.convert("RGB")
 
-    return cv2.addWeighted(frame, .75, asarray(mask), .25, 0)
+#     return cv2.addWeighted(frame, .75, asarray(mask), .25, 0)
 
 def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, quit=None):
     assert quit != None and flag != None
