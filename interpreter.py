@@ -31,14 +31,13 @@ from time import time
 def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, quit=None):
     assert quit != None and flag != None
 
-    flag.wait()
-    quit.wait()
-
     print("Starting model load")
     interpreter = Interpreter(model_path=PATH, num_threads=THREAD)
     interpreter.allocate_tensors()
     print("Ending model load")
+
     flag.set()
+    flag.clear()
 
     output_index = interpreter.get_output_details()[0]['index']
     input_index = interpreter.get_input_details()[0]['index']
@@ -51,8 +50,6 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
 
     condition_time = time()
     condition = False
-
-    flag.clear()
 
     print("Starting model loop")
     while not quit.is_set():

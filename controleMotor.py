@@ -73,15 +73,17 @@ CHANGE_VALUE = 1
 
 def controleStart(queueKey=None, flag=None, quit=None):
     print("Starting motor")
-    flag.wait()
-    quit.wait()
+
     vel_l = vel_l_new = vel_r = vel_r_new = 0
     key = lastkey = "none"
+
+    flag.set()
+    flag.clear()
 
     while not quit.is_set():
         sleep(.5)
 
-        if flag.empty() or flag is None:
+        if not flag.is_set() or flag is None:
             if key == "up":
                 vel_l_new += CHANGE_VALUE
                 vel_r_new += CHANGE_VALUE
