@@ -32,29 +32,25 @@ L_L_PWM = 22 # leftmotorpwm_pin_l
 L_R_PWM = 23 # leftmotorpwm_pin_r
 
 io.setup(L_L_PWM, io.OUT)
-leftmotorpwm_l = io.PWM(L_L_PWM, 100)
-leftmotorpwm_l.start(0)
-leftmotorpwm_l.ChangeDutyCycle(0)
-
 io.setup(L_R_PWM, io.OUT)
+leftmotorpwm_l = io.PWM(L_L_PWM, 100)
 leftmotorpwm_r = io.PWM(L_R_PWM, 100)
+leftmotorpwm_l.start(0)
 leftmotorpwm_r.start(0)
+leftmotorpwm_l.ChangeDutyCycle(0)
 leftmotorpwm_r.ChangeDutyCycle(0)
 
 R_L_PWM = 13 # rightmotorpwm_pin_l
 R_R_PWM = 19 # rightmotorpwm_pin_r
 
 io.setup(R_L_PWM, io.OUT)
-rightmotorpwm_l = io.PWM(R_L_PWM, 100)
-rightmotorpwm_l.start(0)
-rightmotorpwm_l.ChangeDutyCycle(0)
-
 io.setup(R_R_PWM, io.OUT)
+rightmotorpwm_l = io.PWM(R_L_PWM, 100)
 rightmotorpwm_r = io.PWM(R_R_PWM, 100)
+rightmotorpwm_l.start(0)
 rightmotorpwm_r.start(0)
+rightmotorpwm_l.ChangeDutyCycle(0)
 rightmotorpwm_r.ChangeDutyCycle(0)
-
-
 
 def setMotor(power_l, power_r):
     leftmotorpwm_r.ChangeDutyCycle(power_r)
@@ -88,6 +84,7 @@ def controleStart(queueKey=None, flag=None, quit=None):
                 key = "none"
 
             if key == "up":
+                print("aaaaaaaaaaaaaaaaaaaa")
                 vel_l_new += CHANGE_VALUE * 10
                 vel_r_new += CHANGE_VALUE * 10
             elif key == "down":
