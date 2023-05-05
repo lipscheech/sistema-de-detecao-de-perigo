@@ -70,7 +70,7 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
         # image = postprocess(frame, mask, WIDTH, HEIGHT)
         
         #TODO: PUT BLOCK LOGIC
-        if (frame_time - condition_time) % 5 == 0:
+        if int(frame_time - condition_time) % 10 == 0:
             if condition:
                 print("setting condition false")
                 condition = False
