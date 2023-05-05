@@ -57,8 +57,8 @@ rightmotorpwm_r.ChangeDutyCycle(0)
 
 
 def setMotor(power_l, power_r):
-    leftmotorpwm_r.ChangeDutyCycle(power_l)
-    leftmotorpwm_l.ChangeDutyCycle(power_r)
+    leftmotorpwm_r.ChangeDutyCycle(power_r)
+    leftmotorpwm_l.ChangeDutyCycle(power_l)
 
 def exit():
     io.output(L_L_EN, False)
