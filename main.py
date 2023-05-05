@@ -7,7 +7,7 @@ from time import sleep
 
 flag = Event()
 quit = Event()
-key = Queue(1)
+key = Queue(100)
 
 print("Creating Model Thread")
 

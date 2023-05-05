@@ -118,11 +118,11 @@ def controleStart(queueKey=None, flag=None, quit=None):
             lastKey = key
 
             try:
-                key = key.get_nowait(0)
+                key = key.get_nowait()
             except:
                 key = "none"
 
-        print("velocidade: left: {vel_l}  right: {vel_r}")
+        print(f"velocidade: left: {vel_l}  right: {vel_r}")
     print("Ending motor and closing")
     exit()
 
