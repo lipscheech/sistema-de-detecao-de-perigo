@@ -62,7 +62,7 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None):
         
         condition = True
         if flag is not None:
-            if kb.is_pressed('g') and flag.empty():
+            if kb.is_pressed('space') and flag.empty():
                 print("Escrevendo na fila")
                 flag.put(1)
             elif ~flag.empty():
