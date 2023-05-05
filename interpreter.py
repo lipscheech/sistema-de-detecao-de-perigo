@@ -36,7 +36,7 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
 
     interpreter = Interpreter(model_path=PATH, num_threads=THREAD)
     interpreter.allocate_tensors()
-
+    flag.set()
     output_index = interpreter.get_output_details()[0]['index']
     input_index = interpreter.get_input_details()[0]['index']
     input_w, input_h = interpreter.get_input_details()[0]["shape"][1:3]
@@ -48,7 +48,7 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
 
     condition_time = time()
     condition = False
-
+    flag.clear()
     while not quit.is_set():
         frame_time = time()
 
