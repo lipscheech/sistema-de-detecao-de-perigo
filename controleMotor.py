@@ -83,32 +83,32 @@ def controleStart(queueKey=None, flag=None, quit=None):
         if not flag.is_set() or flag is None:
             try:
                 key = queueKey.get_nowait()
-                print(f"Getting {key}")
+                print(f"Getting {key} key")
             except:
                 key = "none"
 
             if key == "up":
-                vel_l_new += CHANGE_VALUE
-                vel_r_new += CHANGE_VALUE
+                vel_l_new += CHANGE_VALUE * 10
+                vel_r_new += CHANGE_VALUE * 10
             elif key == "down":
-                vel_l_new -= CHANGE_VALUE
-                vel_r_new -= CHANGE_VALUE
+                vel_l_new -= CHANGE_VALUE * 10
+                vel_r_new -= CHANGE_VALUE * 10
             elif vel_l == 0 and vel_r == 0 and key in ["left", "right"] and lastKey not in ["left", "right"]:
                 if key == "right":
-                    vel_l_new += CHANGE_VALUE
-                    vel_r_new -= CHANGE_VALUE
+                    vel_l_new += CHANGE_VALUE * 5
+                    vel_r_new -= CHANGE_VALUE * 5
                 elif key == "left":
-                    vel_l_new -= CHANGE_VALUE
-                    vel_r_new += CHANGE_VALUE
+                    vel_l_new -= CHANGE_VALUE * 5
+                    vel_r_new += CHANGE_VALUE * 5
             elif vel_l == vel_l_new and vel_r == vel_r_new:
                 if vel_l > 0:
-                    vel_l_new -= CHANGE_VALUE
+                    vel_l_new -= CHANGE_VALUE * 2
                 elif vel_l < 0:
-                    vel_l_new += CHANGE_VALUE
+                    vel_l_new += CHANGE_VALUE * 2
                 if vel_r > 0:
-                    vel_r_new -= CHANGE_VALUE
+                    vel_r_new -= CHANGE_VALUE * 2
                 elif vel_r < 0:
-                    vel_r_new += CHANGE_VALUE
+                    vel_r_new += CHANGE_VALUE * 2
 
             if vel_l_new > PWM_MAX or vel_l_new < PWM_MIN:
                 vel_l_new = vel_l
