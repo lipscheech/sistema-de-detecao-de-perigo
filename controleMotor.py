@@ -1,18 +1,14 @@
 #!/usr/bin/env python
 # coding: latin-1
-# Autor:   Ingmar Stapel
-# Datum:   20160731
-# Version:   2.0
-# Homepage:   http://custom-build-robots.com
+# Autor:    Ingmar Stapel
+# Datum:    20160731
+# Version:    2.0
+# Homepage:    http://custom-build-robots.com
 
+from time import sleep
 import RPi.GPIO as io
-import keyboard as kb
-import time
-import numpy as np
 
 io.setmode(io.BCM)
-
-PWM_MAX = 100
 
 io.setwarnings(False)
 
@@ -36,160 +32,104 @@ L_L_PWM = 22 # leftmotorpwm_pin_l
 L_R_PWM = 23 # leftmotorpwm_pin_r
 
 io.setup(L_L_PWM, io.OUT)
-io.setup(L_R_PWM, io.OUT)
-leftmotorpwm_l = io.PWM(L_L_PWM,100)
-leftmotorpwm_r = io.PWM(L_R_PWM,100)
+leftmotorpwm_l = io.PWM(L_L_PWM, 100)
 leftmotorpwm_l.start(0)
-leftmotorpwm_r.start(0)
 leftmotorpwm_l.ChangeDutyCycle(0)
+
+io.setup(L_R_PWM, io.OUT)
+leftmotorpwm_r = io.PWM(L_R_PWM, 100)
+leftmotorpwm_r.start(0)
 leftmotorpwm_r.ChangeDutyCycle(0)
 
 R_L_PWM = 13 # rightmotorpwm_pin_l
 R_R_PWM = 19 # rightmotorpwm_pin_r
 
 io.setup(R_L_PWM, io.OUT)
-io.setup(R_R_PWM, io.OUT)
-rightmotorpwm_l = io.PWM(R_L_PWM,100)
-rightmotorpwm_r = io.PWM(R_R_PWM,100)
+rightmotorpwm_l = io.PWM(R_L_PWM, 100)
 rightmotorpwm_l.start(0)
-rightmotorpwm_r.start(0)
 rightmotorpwm_l.ChangeDutyCycle(0)
+
+io.setup(R_R_PWM, io.OUT)
+rightmotorpwm_r = io.PWM(R_R_PWM, 100)
+rightmotorpwm_r.start(0)
 rightmotorpwm_r.ChangeDutyCycle(0)
 
-def setMotorMode(motor, mode):
-   if motor == "leftmotor":
-      if mode == "reverse":
-         io.output(L_L_EN, True)
-         io.output(L_R_EN, False)
-      elif  mode == "forward":
-         io.output(L_L_EN, False)
-         io.output(L_R_EN, True)
-      else:
-         io.output(L_L_EN, False)
-         io.output(L_R_EN, False)
-   elif motor == "rightmotor":
-      if mode == "reverse":
-         io.output(R_L_EN, False)
-         io.output(R_R_EN, True)
-      elif  mode == "forward":
-         io.output(R_L_EN, True)
-         io.output(R_R_EN, False)
-      else:
-         io.output(R_L_EN, False)
-         io.output(R_R_EN, False)
-   else:
-      io.output(L_L_EN, False)
-      io.output(L_R_EN, False)
-      io.output(R_L_EN, False)
-      io.output(R_R_EN, False)
+PWM_MAX = 75
+PWM_MIN = 25
 
-def setMotorLeft(power):
-   int(power)
-   if power < 0:
-      # Rueckwaertsmodus fuer den linken Motor
-      #setMotorMode("leftmotor", "reverse")
-      pwm = -int(PWM_MAX * power)
-      if pwm > PWM_MAX:
-         pwm = PWM_MAX
-      leftmotorpwm_l.ChangeDutyCycle(pwm)
-      leftmotorpwm_r.ChangeDutyCycle(0)
-   elif power > 0:
-      # Vorwaertsmodus fuer den linken Motor
-      #setMotorMode("leftmotor", "forward")
-      pwm = int(PWM_MAX * power)
-      if pwm > PWM_MAX:
-         pwm = PWM_MAX
-      leftmotorpwm_l.ChangeDutyCycle(0)
-      leftmotorpwm_r.ChangeDutyCycle(pwm)
-   else:
-      # Stoppmodus fuer den linken Motor
-      leftmotorpwm_l.ChangeDutyCycle(0)
-      leftmotorpwm_r.ChangeDutyCycle(0)
-
-def setMotorRight(power):
-   int(power)
-   if power < 0:
-      # Rueckwaertsmodus fuer den rechten Motor
-      #setMotorMode("rightmotor", "reverse")
-      pwm = -int(PWM_MAX * power)
-      if pwm > PWM_MAX:
-         pwm = PWM_MAX
-      rightmotorpwm_l.ChangeDutyCycle(pwm)
-      rightmotorpwm_r.ChangeDutyCycle(0)
-   elif power > 0:
-      # Vorwaertsmodus fuer den rechten Motor
-      #setMotorMode("rightmotor", "forward")
-      pwm = int(PWM_MAX * power)
-      if pwm > PWM_MAX:
-         pwm = PWM_MAX
-      rightmotorpwm_l.ChangeDutyCycle(0)
-      rightmotorpwm_r.ChangeDutyCycle(pwm)
-   else:
-      # Stoppmodus fuer den rechten Motor
-      rightmotorpwm_l.ChangeDutyCycle(0)
-      rightmotorpwm_r.ChangeDutyCycle(0)
+def setMotor(power_l, power_r):
+    leftmotorpwm_r.ChangeDutyCycle(power_l)
+    leftmotorpwm_l.ChangeDutyCycle(power_r)
 
 def exit():
-   io.output(L_L_EN, False)
-   io.output(L_R_EN, False)
-   io.output(R_L_EN, False)
-   io.output(R_R_EN, False)
-   io.cleanup()
+    io.output(L_L_EN, False)
+    io.output(L_R_EN, False)
+    io.output(R_L_EN, False)
+    io.output(R_R_EN, False)
+    io.cleanup()
 
-PWM_NOW = 75
+def controleStart(queueKey=None, flag=None, quit=None):
+    flag.wait()
+    quit.wait()
+    vel_l = vel_r = 0
+    key = lastkey = "none"
 
-def over(value, plus):
-   value = value * 100 + plus
-   if value > PWM_NOW:
-       value = PWM_NOW
-   elif value < -PWM_NOW:
-       value = -PWM_NOW
-   return np.round(value* .01, 2)
+    while not quit.is_set():
+        sleep(.5)
 
-def controleStart(flag=None):
-      vel_l = 0
-      vel_r = 0
-      while True:
-         if flag.empty() or flag is None:
-            #   input_ = input("set state:")
-            if ~flag.empty():
-                  setMotorLeft(0)
-                  setMotorRight(0)
-                  exit()
-                  break
-            elif kb.is_pressed('left'):
-                  setMotorLeft(.05)
-                  setMotorRight(.1)
+        if flag.empty() or flag is None:
+            vel_l_new = vel_l
+            vel_r_new = vel_r
 
-            elif kb.is_pressed('up'):
-                  vel_l = over(vel_l, 5)
-                  vel_r = over(vel_r, 5)
-
-                  setMotorLeft(vel_l)
-                  setMotorRight(vel_r)
-            
-            elif kb.is_pressed('right'):
-
-                  setMotorLeft(.1)
-                  setMotorRight(.05)
-            
-            elif kb.is_pressed('down'):
-                  vel_l = over(vel_l, -10)
-                  vel_r = over(vel_r, -10)
-
-                  setMotorLeft(vel_l)
-                  setMotorRight(vel_r)
+            if key == "up":
+                vel_l_new += 1
+                vel_r_new += 1
+                lastKey = "up"
+            elif key == "down":
+                vel_l_new -= 1
+                vel_r_new -=1
+                lastKey = "down"
+            elif vel_l == 0 and vel_r == 0 and key in ["left", "right"] and lastKey not in ["left", "right"]:
+                if key == "right":
+                    vel_l_new += 1
+                    vel_r_new -=1
+                    lastKey = "right"
+                elif key == "left":
+                    vel_l_new -= 1
+                    vel_r_new += 1
+                    lastKey = "left"
+            elif vel_l == vel_l_new and vel_r == vel_r_new:
+                if vel_l > 0:
+                    vel_l_new -= 1
+                elif vel_l < 0:
+                    vel_l_new += 1
+                if vel_r > 0:
+                    vel_r_new -=1
+                elif vel_r < 0:
+                    vel_r_new += 1
+                lastKey = "none"
             else:
-                  if vel_l > 0:
-                     vel_l = over(vel_l, -10)
-                     vel_r = over(vel_r, -10)
-                  elif vel_r < 0:
-                     vel_l = over(vel_l, 5)
-                     vel_r = over(vel_r, 5)
-                  setMotorLeft(vel_l)
-                  setMotorRight(vel_r)
+                lastKey = "none"
+
+            if vel_l_new > PWM_MAX or vel_l_new < PWM_MIN:
+                vel_l_new = vel_l
+            if vel_r_new > PWM_MAX or vel_r_new < PWM_MIN:
+                vel_r_new = vel_r
+
+            setMotor(vel_l_new - vel_l, vel_r_new - vel_r)
+
+            vel_l = vel_l_new
+            vel_r = vel_r_new
+
+            lastKey = key
+
+            try:
+                key = key.get(0)
+            except:
+                key = "none"
+
             print(vel_l, vel_r)
-         time.sleep(.5)
+    exit()
 
 if __name__ == "__main__":
-   controleStart()
+    controleStart()

@@ -3,7 +3,6 @@ from numpy import float32, uint8, expand_dims
 from tensorflow.lite.python.interpreter import Interpreter
 from PIL.Image import fromarray
 from time import time
-import keyboard as kb
 
 def postprocess(frame, mask, WIDTH, HEIGHT):
     from numpy import asarray, stack
@@ -29,7 +28,12 @@ def postprocess(frame, mask, WIDTH, HEIGHT):
 
     return cv2.addWeighted(frame, .75, asarray(mask), .25, 0)
 
-def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None):
+def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, quit=None):
+    assert quit != None and flag != None
+
+    flag.wait()
+    quit.wait()
+
     interpreter = Interpreter(model_path=PATH, num_threads=THREAD)
     interpreter.allocate_tensors()
 
@@ -42,7 +46,10 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None):
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, WIDTH)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, HEIGHT)
 
-    while cap.isOpened():
+    condition_time = time()
+    condition = False
+
+    while not quit.is_set():
         frame_time = time()
 
         _, frame = cap.read()
@@ -60,14 +67,20 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None):
         # POSTPROCESS
         # image = postprocess(frame, mask, WIDTH, HEIGHT)
         
-        condition = True
-        if flag is not None:
-            if kb.is_pressed('g') and flag.empty():
-                print("Escrevendo na fila")
-                flag.put(1)
-            elif ~flag.empty():
-                print("Limpando fila")
-                flag.get()
+        #TODO: PUT BLOCK LOGIC
+        if (condition_time - frame_time) % 100 == 0:
+            if condition:
+                print("setting condition false")
+                condition = False
+            else:
+                print("setting condition true")
+                condition = True
+
+        # (UN)BLOCK MOTOR
+        if condition and not flag.is_set():
+            flag.set()
+        elif flag.is_set():
+            flag.clear()
 
         fps = 1 / (time() - frame_time)
 
@@ -76,27 +89,23 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None):
         #             cv2.FONT_HERSHEY_SIMPLEX, .75, (255, 255), 3, cv2.LINE_AA)
 
         # cv2.imshow("segmentation", image)
-
-        if cv2.waitKey(10) & 0xFF == ord('q'):
-            break
-
     cap.release()
     cv2.destroyAllWindows()
 
-if __name__ == '__main__':
-    from argparse import ArgumentParser
+# if __name__ == '__main__':
+#     from argparse import ArgumentParser
 
-    parser = ArgumentParser()
-    parser.add_argument(
-        "--path", default="model.tflite", help="path to model")
-    parser.add_argument('--camera_width', type=int, default=320,
-                        help='USB Camera resolution (width). (Default=640)')
-    parser.add_argument('--camera_height', type=int, default=240,
-                        help='USB Camera resolution (height). (Default=360)')
-    parser.add_argument('--cam_fps', type=int, default=30,
-                        help='FPS (Default=15)')
-    parser.add_argument("--thread", type=int, default=4,
-                        help="Number of Threads")
-    args = parser.parse_args()
+#     parser = ArgumentParser()
+#     parser.add_argument(
+#         "--path", default="model.tflite", help="path to model")
+#     parser.add_argument('--camera_width', type=int, default=320,
+#                         help='USB Camera resolution (width). (Default=640)')
+#     parser.add_argument('--camera_height', type=int, default=240,
+#                         help='USB Camera resolution (height). (Default=360)')
+#     parser.add_argument('--cam_fps', type=int, default=30,
+#                         help='FPS (Default=15)')
+#     parser.add_argument("--thread", type=int, default=4,
+#                         help="Number of Threads")
+#     args = parser.parse_args()
 
-    run(PATH=args.path, FPS=args.cam_fps, WIDTH=args.camera_width, HEIGHT=args.camera_height, THREAD=args.thread)
+#     run(PATH=args.path, FPS=args.cam_fps, WIDTH=args.camera_width, HEIGHT=args.camera_height, THREAD=args.thread)
