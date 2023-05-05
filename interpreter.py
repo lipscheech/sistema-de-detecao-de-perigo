@@ -70,7 +70,7 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
         # image = postprocess(frame, mask, WIDTH, HEIGHT)
         
         #TODO: PUT BLOCK LOGIC
-        if (frame_time - condition_time) % 5 == 0:
+        if (frame_time - condition_time) % 20 == 0:
             if condition:
                 print("setting condition false")
                 condition = False
@@ -86,7 +86,7 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
 
         fps = 1 / (time() - frame_time)
 
-        print(f"fps:{fps} blocked: {condition}")
+        print(f"fps:{fps} blocked: {condition} \n {frame_time - condition_time}" )
         # cv2.putText(image, str(fps), (5, 16),
         #             cv2.FONT_HERSHEY_SIMPLEX, .75, (255, 255), 3, cv2.LINE_AA)
 
