@@ -41,10 +41,10 @@ io.setwarnings(False)
 # --- START KONFIGURATION GPIO Adressen ---
 
 # Linker Motortreiber
-L_L_EN = 17 # L_L_EN
-L_R_EN = 18 # L_R_EN
-L_L_PWM = 22 # leftmotorpwm_pin_l
-L_R_PWM = 23 # leftmotorpwm_pin_r
+L_L_EN = 18 # L_L_EN
+L_R_EN = 17 # L_R_EN
+L_L_PWM = 23 # leftmotorpwm_pin_l
+L_R_PWM = 22 # leftmotorpwm_pin_r
 
 # Rechter Motortreiber
 R_L_EN = 6 # R_L_EN
