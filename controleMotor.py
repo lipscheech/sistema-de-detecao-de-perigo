@@ -70,7 +70,7 @@ CHANGE_VALUE = 1
 def controleStart(queueKey=None, flag=None, quit=None):
     print("Starting motor")
 
-    vel_l = vel_l_new = vel_r = vel_r_new = 0
+    vel_l = vel_r = 0
     key = lastkey = "none"
 
     while not quit.is_set():
@@ -84,39 +84,35 @@ def controleStart(queueKey=None, flag=None, quit=None):
                 key = "none"
 
             if key == "up":
-                vel_l_new += CHANGE_VALUE * 10
-                vel_r_new += CHANGE_VALUE * 10
-                print(vel_l_new, vel_r_new)
+                vel_l += CHANGE_VALUE * 10
+                vel_r += CHANGE_VALUE * 10
             elif key == "down":
-                vel_l_new -= CHANGE_VALUE * 10
-                vel_r_new -= CHANGE_VALUE * 10
+                vel_l -= CHANGE_VALUE * 10
+                vel_r -= CHANGE_VALUE * 10
             elif vel_l == 0 and vel_r == 0 and key in ["left", "right"] and lastKey not in ["left", "right"]:
                 if key == "right":
-                    vel_l_new += CHANGE_VALUE * 5
-                    vel_r_new -= CHANGE_VALUE * 5
+                    vel_l += CHANGE_VALUE * 5
+                    vel_r -= CHANGE_VALUE * 5
                 elif key == "left":
-                    vel_l_new -= CHANGE_VALUE * 5
-                    vel_r_new += CHANGE_VALUE * 5
-            elif vel_l == vel_l_new and vel_r == vel_r_new:
+                    vel_l -= CHANGE_VALUE * 5
+                    vel_r += CHANGE_VALUE * 5
+            elif vel_l == vel_l and vel_r == vel_r:
                 if vel_l > 0:
-                    vel_l_new -= CHANGE_VALUE * 2
+                    vel_l -= CHANGE_VALUE * 2
                 elif vel_l < 0:
-                    vel_l_new += CHANGE_VALUE * 2
+                    vel_l += CHANGE_VALUE * 2
                 if vel_r > 0:
-                    vel_r_new -= CHANGE_VALUE * 2
+                    vel_r -= CHANGE_VALUE * 2
                 elif vel_r < 0:
-                    vel_r_new += CHANGE_VALUE * 2
+                    vel_r += CHANGE_VALUE * 2
 
-            if vel_l_new > PWM_MAX or vel_l_new < PWM_MIN:
-                vel_l_new = vel_l
-            if vel_r_new > PWM_MAX or vel_r_new < PWM_MIN:
-                vel_r_new = vel_r
+            if vel_l > PWM_MAX or vel_l < PWM_MIN:
+                vel_l = vel_l
+            if vel_r > PWM_MAX or vel_r < PWM_MIN:
+                vel_r = vel_r
 
-            print(f"velocidade: left: {vel_l_new}  right: {vel_r_new}")
-            setMotor(vel_l_new, vel_r_new)
-
-            vel_l = vel_l_new
-            vel_r = vel_r_new
+            print(f"velocidade: left: {vel_l}  right: {vel_r}")
+            setMotor(vel_l, vel_r)
 
             lastKey = key
 
