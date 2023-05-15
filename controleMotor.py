@@ -63,8 +63,8 @@ def exit():
     io.output(R_R_EN, False)
     io.cleanup()
 
-PWM_MAX = 75
-PWM_MIN = -25
+PWM_MAX = 80
+PWM_MIN = 0
 CHANGE_VALUE = 1
 
 def controleStart(queueKey=None, flag=None, quit=None):
@@ -106,10 +106,15 @@ def controleStart(queueKey=None, flag=None, quit=None):
                 elif vel_r < 0:
                     vel_r += CHANGE_VALUE * 2
 
-            if vel_l > PWM_MAX or vel_l < PWM_MIN:
-                vel_l = vel_l
-            if vel_r > PWM_MAX or vel_r < PWM_MIN:
-                vel_r = vel_r
+            if vel_l > PWM_MAX:
+                vel_l = PWM_MAX
+            elif vel_l < PWM_MIN:
+                vel_l = PWM_MIN
+
+            if vel_r > PWM_MAX:
+                vel_r = PWM_MAX
+            elif vel_r < PWM_MIN:
+                vel_r = PWM_MIN
 
             print(f"velocidade: left: {vel_l}  right: {vel_r}")
             setMotor(vel_l, vel_r)
