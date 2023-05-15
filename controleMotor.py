@@ -20,14 +20,6 @@ L_R_EN = 17 # L_R_EN
 io.setup(L_R_EN, io.OUT)
 io.output(L_R_EN, True)
 
-R_L_EN = 6 # R_L_EN
-io.setup(R_L_EN, io.OUT)
-io.output(R_L_EN, True)
-
-R_R_EN = 12 # R_R_EN
-io.setup(R_R_EN, io.OUT)
-io.output(R_R_EN, True)
-
 L_L_PWM = 23 # leftmotorpwm_pin_l
 L_R_PWM = 22 # leftmotorpwm_pin_r
 
@@ -35,10 +27,19 @@ io.setup(L_L_PWM, io.OUT)
 io.setup(L_R_PWM, io.OUT)
 leftmotorpwm_l = io.PWM(L_L_PWM, 100)
 leftmotorpwm_r = io.PWM(L_R_PWM, 100)
+
 leftmotorpwm_l.start(0)
 leftmotorpwm_r.start(0)
 leftmotorpwm_l.ChangeDutyCycle(0)
 leftmotorpwm_r.ChangeDutyCycle(0)
+
+R_L_EN = 6 # R_L_EN
+io.setup(R_L_EN, io.OUT)
+io.output(R_L_EN, True)
+
+R_R_EN = 12 # R_R_EN
+io.setup(R_R_EN, io.OUT)
+io.output(R_R_EN, True)
 
 R_L_PWM = 13 # rightmotorpwm_pin_l
 R_R_PWM = 19 # rightmotorpwm_pin_r
@@ -52,9 +53,12 @@ rightmotorpwm_r.start(0)
 rightmotorpwm_l.ChangeDutyCycle(0)
 rightmotorpwm_r.ChangeDutyCycle(0)
 
-def setMotor(power_l, power_r):
-    leftmotorpwm_r.ChangeDutyCycle(power_r)
-    leftmotorpwm_l.ChangeDutyCycle(power_l)
+def setMotorLeft(power):
+    leftmotorpwm_r.ChangeDutyCycle(0)
+    leftmotorpwm_l.ChangeDutyCycle(power)
+def setMotorRight(power):
+    leftmotorpwm_r.ChangeDutyCycle(power)
+    leftmotorpwm_l.ChangeDutyCycle(0)
 
 def exit():
     io.output(L_L_EN, False)
@@ -84,11 +88,11 @@ def controleStart(queueKey=None, flag=None, quit=None):
                 key = "none"
 
             if key == "up":
-                vel_l += CHANGE_VALUE * 5
-                vel_r += CHANGE_VALUE * 5
+                vel_l += int(CHANGE_VALUE * 5)
+                vel_r += int(CHANGE_VALUE * 5)
             elif key == "down":
-                vel_l -= CHANGE_VALUE * 5
-                vel_r -= CHANGE_VALUE * 5
+                vel_l -= int(CHANGE_VALUE * 5)
+                vel_r -= int(CHANGE_VALUE * 5)
             elif key in ["left", "right"] and lastKey not in ["left", "right"]:
                 if key == "right":
                     vel_l += CHANGE_VALUE * 5
@@ -117,7 +121,8 @@ def controleStart(queueKey=None, flag=None, quit=None):
                 vel_r = PWM_MIN
 
             print(f"velocidade: left: {vel_l}  right: {vel_r}")
-            setMotor(vel_l, vel_r)
+            setMotorLeft(vel_l)
+            setMotorRight(vel_r)
 
             lastKey = key
 
