@@ -84,11 +84,11 @@ def controleStart(queueKey=None, flag=None, quit=None):
                 key = "none"
 
             if key == "up":
-                vel_l += CHANGE_VALUE * 10
-                vel_r += CHANGE_VALUE * 10
+                vel_l += CHANGE_VALUE * 5
+                vel_r += CHANGE_VALUE * 5
             elif key == "down":
-                vel_l -= CHANGE_VALUE * 10
-                vel_r -= CHANGE_VALUE * 10
+                vel_l -= CHANGE_VALUE * 5
+                vel_r -= CHANGE_VALUE * 5
             elif key in ["left", "right"] and lastKey not in ["left", "right"]:
                 if key == "right":
                     vel_l += CHANGE_VALUE * 5
