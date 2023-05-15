@@ -86,6 +86,7 @@ def controleStart(queueKey=None, flag=None, quit=None):
             if key == "up":
                 vel_l_new += CHANGE_VALUE * 10
                 vel_r_new += CHANGE_VALUE * 10
+                print(vel_l_new, vel_r_new)
             elif key == "down":
                 vel_l_new -= CHANGE_VALUE * 10
                 vel_r_new -= CHANGE_VALUE * 10
