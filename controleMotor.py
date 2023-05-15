@@ -113,8 +113,8 @@ def controleStart(queueKey=None, flag=None, quit=None):
                 vel_r_new = vel_r
 
             print(f"velocidade: left: {vel_l_new}  right: {vel_r_new}")
-            print(vel_l_new - vel_l, vel_r_new - vel_r)    
-            setMotor(vel_l_new - vel_l, vel_r_new - vel_r)
+            print(vel_l - vel_l_new, vel_r_new - vel_r)    
+            setMotor(vel_l - vel_l_new, vel_r -  vel_r_new)
 
             vel_l = vel_l_new
             vel_r = vel_r_new
