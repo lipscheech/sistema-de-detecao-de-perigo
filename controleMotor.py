@@ -12,11 +12,11 @@ io.setmode(io.BCM)
 
 io.setwarnings(False)
 
-L_L_EN = 17 # L_L_EN
+L_L_EN = 18 # L_L_EN
 io.setup(L_L_EN, io.OUT)
 io.output(L_L_EN, True)
 
-L_R_EN = 18 # L_R_EN
+L_R_EN = 17 # L_R_EN
 io.setup(L_R_EN, io.OUT)
 io.output(L_R_EN, True)
 
@@ -28,8 +28,8 @@ R_R_EN = 12 # R_R_EN
 io.setup(R_R_EN, io.OUT)
 io.output(R_R_EN, True)
 
-L_L_PWM = 22 # leftmotorpwm_pin_l
-L_R_PWM = 23 # leftmotorpwm_pin_r
+L_L_PWM = 23 # leftmotorpwm_pin_l
+L_R_PWM = 22 # leftmotorpwm_pin_r
 
 io.setup(L_L_PWM, io.OUT)
 io.setup(L_R_PWM, io.OUT)
