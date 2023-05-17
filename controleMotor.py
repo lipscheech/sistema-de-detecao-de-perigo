@@ -100,7 +100,7 @@ def controleStart(queueKey=None, flag=None, quit=None):
                 elif key == "left":
                     vel_l -= CHANGE_VALUE * 5
                     vel_r += CHANGE_VALUE * 5
-            elif vel_l == vel_l and vel_r == vel_r:
+            elif vel_l != 0 and vel_r != 0:
                 if vel_l > 0:
                     vel_l -= CHANGE_VALUE * 5
                 elif vel_l < 0:
@@ -112,13 +112,9 @@ def controleStart(queueKey=None, flag=None, quit=None):
 
             if vel_l > PWM_MAX:
                 vel_l = PWM_MAX
-            elif vel_l < PWM_MIN:
-                vel_l = PWM_MIN
 
             if vel_r > PWM_MAX:
                 vel_r = PWM_MAX
-            elif vel_r < PWM_MIN:
-                vel_r = PWM_MIN
 
             print(f"velocidade: left: {vel_l}  right: {vel_r}")
             setMotorLeft(vel_l)
