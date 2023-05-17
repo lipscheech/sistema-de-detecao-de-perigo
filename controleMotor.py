@@ -88,11 +88,11 @@ def controleStart(queueKey=None, flag=None, quit=None):
                 key = "none"
 
             if key == "up":
-                vel_l += int(CHANGE_VALUE * 5)
-                vel_r += int(CHANGE_VALUE * 5)
+                vel_l += int(CHANGE_VALUE * 2)
+                vel_r += int(CHANGE_VALUE * 2)
             elif key == "down":
-                vel_l -= int(CHANGE_VALUE * 5)
-                vel_r -= int(CHANGE_VALUE * 5)
+                vel_l -= int(CHANGE_VALUE * 2)
+                vel_r -= int(CHANGE_VALUE * 2)
             elif key in ["left", "right"] and lastKey not in ["left", "right"]:
                 if key == "right":
                     vel_l += CHANGE_VALUE * 5
@@ -102,13 +102,13 @@ def controleStart(queueKey=None, flag=None, quit=None):
                     vel_r += CHANGE_VALUE * 5
             elif vel_l == vel_l and vel_r == vel_r:
                 if vel_l > 0:
-                    vel_l -= CHANGE_VALUE * 2
+                    vel_l -= CHANGE_VALUE * 5
                 elif vel_l < 0:
-                    vel_l += CHANGE_VALUE * 2
+                    vel_l += CHANGE_VALUE * 5
                 if vel_r > 0:
-                    vel_r -= CHANGE_VALUE * 2
+                    vel_r -= CHANGE_VALUE * 5
                 elif vel_r < 0:
-                    vel_r += CHANGE_VALUE * 2
+                    vel_r += CHANGE_VALUE * 5
 
             if vel_l > PWM_MAX:
                 vel_l = PWM_MAX
