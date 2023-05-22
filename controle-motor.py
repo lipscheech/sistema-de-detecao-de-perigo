@@ -140,7 +140,7 @@ def setMotorLeft(power):
    if power < 0:
       # Rueckwaertsmodus fuer den linken Motor
       #setMotorMode("leftmotor", "reverse")
-      pwm = -int(PWM_MAX * power)
+      pwm = int(PWM_MAX * power)
       if pwm > PWM_MAX:
          pwm = PWM_MAX
       leftmotorpwm_l.ChangeDutyCycle(pwm)
@@ -148,7 +148,7 @@ def setMotorLeft(power):
    elif power > 0:
       # Vorwaertsmodus fuer den linken Motor
       #setMotorMode("leftmotor", "forward")
-      pwm = int(PWM_MAX * power)
+      pwm = -int(PWM_MAX * power)
       if pwm > PWM_MAX:
          pwm = PWM_MAX
       leftmotorpwm_l.ChangeDutyCycle(0)
@@ -181,16 +181,16 @@ def setMotorRight(power):
       pwm = -int(PWM_MAX * power)
       if pwm > PWM_MAX:
          pwm = PWM_MAX
-      rightmotorpwm_l.ChangeDutyCycle(0)
-      rightmotorpwm_r.ChangeDutyCycle(pwm)
+      rightmotorpwm_l.ChangeDutyCycle(pwm)
+      rightmotorpwm_r.ChangeDutyCycle(0)
    elif power > 0:
       # Vorwaertsmodus fuer den rechten Motor
       #setMotorMode("rightmotor", "forward")
       pwm = int(PWM_MAX * power)
       if pwm > PWM_MAX:
          pwm = PWM_MAX
-      rightmotorpwm_l.ChangeDutyCycle(pwm)
-      rightmotorpwm_r.ChangeDutyCycle(0)
+      rightmotorpwm_l.ChangeDutyCycle(0)
+      rightmotorpwm_r.ChangeDutyCycle(pwm)
    else:
       # Stoppmodus fuer den rechten Motor
       rightmotorpwm_l.ChangeDutyCycle(0)
