@@ -235,7 +235,7 @@ if __name__ == "__main__":
             setMotorRight(.1)
 
         elif kb.is_pressed('up'):
-            vel_l = over(vel_l, 1)
+            vel_l = over(vel_l, -1)
             vel_r = over(vel_r, 1)
 
             setMotorLeft(vel_l)
