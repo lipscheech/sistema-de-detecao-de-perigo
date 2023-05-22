@@ -136,23 +136,23 @@ def controleStart(queueKey=None, flag=None, quit=None):
                 key = "none"
 
             if key == "up":
-                vel_l = over(vel_l, -CHANGE_VALUE)
+                vel_l = over(vel_l, CHANGE_VALUE)
                 vel_r = over(vel_r, CHANGE_VALUE)
                 setMotorLeft(vel_l)
                 setMotorRight(vel_r)
-                
+
             elif key == "down":
                 vel_l = over(vel_l, CHANGE_VALUE)
-                vel_r = over(vel_r, -CHANGE_VALUE)
+                vel_r = over(vel_r, CHANGE_VALUE)
                 setMotorLeft(vel_l)
                 setMotorRight(vel_r)
-            # elif key in ["left", "right"] and lastKey not in ["left", "right"]:
-            #     if key == "right":
-            #         vel_l += CHANGE_VALUE * 5
-            #         vel_r -= CHANGE_VALUE * 5
-            #     elif key == "left":
-            #         vel_l -= CHANGE_VALUE * 5
-            #         vel_r += CHANGE_VALUE * 5
+            elif key in ["left", "right"] and lastKey not in ["left", "right"]:
+                if key == "right":
+                    vel_l = over(vel_l, 1)
+                    vel_r = over(vel_l, 2)
+                elif key == "left":
+                    vel_l = over(vel_l, 2)
+                    vel_r = over(vel_l, 1)
             else:
                 if vel_l > 0:
                     vel_l = over(vel_l, -CHANGE_VALUE)
