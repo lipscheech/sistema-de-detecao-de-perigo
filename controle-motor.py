@@ -181,16 +181,16 @@ def setMotorRight(power):
       pwm = -int(PWM_MAX * power)
       if pwm > PWM_MAX:
          pwm = PWM_MAX
-      rightmotorpwm_l.ChangeDutyCycle(pwm)
-      rightmotorpwm_r.ChangeDutyCycle(0)
+      rightmotorpwm_l.ChangeDutyCycle(0)
+      rightmotorpwm_r.ChangeDutyCycle(pwm)
    elif power > 0:
       # Vorwaertsmodus fuer den rechten Motor
       #setMotorMode("rightmotor", "forward")
       pwm = int(PWM_MAX * power)
       if pwm > PWM_MAX:
          pwm = PWM_MAX
-      rightmotorpwm_l.ChangeDutyCycle(0)
-      rightmotorpwm_r.ChangeDutyCycle(pwm)
+      rightmotorpwm_l.ChangeDutyCycle(pwm)
+      rightmotorpwm_r.ChangeDutyCycle(0)
    else:
       # Stoppmodus fuer den rechten Motor
       rightmotorpwm_l.ChangeDutyCycle(0)
@@ -236,7 +236,7 @@ if __name__ == "__main__":
 
         elif kb.is_pressed('up'):
             vel_l = over(vel_l, 1)
-            vel_r = over(vel_r, -1)
+            vel_r = over(vel_r, 1)
 
             setMotorLeft(vel_l)
             setMotorRight(vel_r)
@@ -248,17 +248,17 @@ if __name__ == "__main__":
         
         elif kb.is_pressed('down'):
             vel_l = over(vel_l, -1)
-            vel_r = over(vel_r, 1)
+            vel_r = over(vel_r, -1)
 
             setMotorLeft(vel_l)
             setMotorRight(vel_r)
         else:
             if vel_l > 0:
                 vel_l = over(vel_l, -1)
-                vel_r = over(vel_r, 1)
+                vel_r = over(vel_r, -1)
             elif vel_r < 0:
                 vel_l = over(vel_l, 1)
-                vel_r = over(vel_r, -1)
+                vel_r = over(vel_r, 1)
             setMotorLeft(vel_l)
             setMotorRight(vel_r)
         print(vel_l, vel_r)
