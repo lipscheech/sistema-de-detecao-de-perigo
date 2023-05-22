@@ -136,8 +136,8 @@ def controleStart(queueKey=None, flag=None, quit=None):
                 key = "none"
 
             if key == "up":
-                vel_l -= over(vel_l, CHANGE_VALUE)
-                vel_r += over(vel_r, CHANGE_VALUE)
+                vel_l = over(vel_l, -CHANGE_VALUE)
+                vel_r = over(vel_r, CHANGE_VALUE)
             elif key == "down":
                 vel_l -= int(CHANGE_VALUE * 2)
                 vel_r -= int(CHANGE_VALUE * 2)
@@ -148,15 +148,13 @@ def controleStart(queueKey=None, flag=None, quit=None):
                 elif key == "left":
                     vel_l -= CHANGE_VALUE * 5
                     vel_r += CHANGE_VALUE * 5
-            elif vel_l != 0 and vel_r != 0:
+            else:
                 if vel_l > 0:
-                    vel_l -= CHANGE_VALUE * 5
-                elif vel_l < 0:
-                    vel_l += CHANGE_VALUE * 5
-                if vel_r > 0:
-                    vel_r -= CHANGE_VALUE * 5
+                    vel_l = over(vel_l, -CHANGE_VALUE)
+                    vel_r = over(vel_r, -CHANGE_VALUE)
                 elif vel_r < 0:
-                    vel_r += CHANGE_VALUE * 5
+                    vel_l = over(vel_l, CHANGE_VALUE)
+                    vel_r = over(vel_r, CHANGE_VALUE)
 
             if vel_l > PWM_MAX:
                 vel_l = PWM_MAX
