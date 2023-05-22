@@ -56,7 +56,7 @@ while not is_pressed("space"):
     except:
         pass
 
-    sleep(.25)
+    sleep(.5)
 
 print("Ending main loop")
 
