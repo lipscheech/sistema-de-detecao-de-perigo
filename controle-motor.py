@@ -236,7 +236,7 @@ if __name__ == "__main__":
 
         elif kb.is_pressed('up'):
             vel_l = over(vel_l, 1)
-            vel_r = over(vel_r, 1)
+            vel_r = over(vel_r, -1)
 
             setMotorLeft(vel_l)
             setMotorRight(vel_r)
@@ -248,17 +248,17 @@ if __name__ == "__main__":
         
         elif kb.is_pressed('down'):
             vel_l = over(vel_l, -1)
-            vel_r = over(vel_r, -1)
+            vel_r = over(vel_r, 1)
 
             setMotorLeft(vel_l)
             setMotorRight(vel_r)
         else:
             if vel_l > 0:
                 vel_l = over(vel_l, -1)
-                vel_r = over(vel_r, -1)
+                vel_r = over(vel_r, 1)
             elif vel_r < 0:
                 vel_l = over(vel_l, 1)
-                vel_r = over(vel_r, 1)
+                vel_r = over(vel_r, -1)
             setMotorLeft(vel_l)
             setMotorRight(vel_r)
         print(vel_l, vel_r)
