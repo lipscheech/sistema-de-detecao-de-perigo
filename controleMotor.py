@@ -117,7 +117,7 @@ def exit():
 
 PWM_MAX = 80
 PWM_MIN = 0
-CHANGE_VALUE = 0.5
+CHANGE_VALUE = 1
 
 def controleStart(queueKey=None, flag=None, quit=None):
     print("Starting motor")
