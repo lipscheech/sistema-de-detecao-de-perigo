@@ -54,6 +54,38 @@ rightmotorpwm_r.start(0)
 rightmotorpwm_l.ChangeDutyCycle(0)
 rightmotorpwm_r.ChangeDutyCycle(0)
 
+def setMotorUpDown(power):
+    int(power)
+    if power < 0:
+        # Rueckwaertsmodus fuer den rechten Motor
+        #setMotorMode("rightmotor", "reverse")
+        pwm = -int(PWM_MAX * power)
+        if pwm > PWM_MAX:
+            pwm = PWM_MAX
+        
+        leftmotorpwm_l.ChangeDutyCycle(pwm)
+        rightmotorpwm_l.ChangeDutyCycle(pwm)
+        leftmotorpwm_r.ChangeDutyCycle(0)
+        rightmotorpwm_r.ChangeDutyCycle(0)
+    elif power > 0:
+        # Vorwaertsmodus fuer den rechten Motor
+        #setMotorMode("rightmotor", "forward")
+        pwm = int(PWM_MAX * power)
+        if pwm > PWM_MAX:
+            pwm = PWM_MAX
+        leftmotorpwm_l.ChangeDutyCycle(0)
+        rightmotorpwm_l.ChangeDutyCycle(0)
+        rightmotorpwm_r.ChangeDutyCycle(pwm)
+        leftmotorpwm_r.ChangeDutyCycle(pwm)
+    else:
+        # Stoppmodus fuer den rechten Motor
+        leftmotorpwm_l.ChangeDutyCycle(0)
+        leftmotorpwm_r.ChangeDutyCycle(0)
+        rightmotorpwm_l.ChangeDutyCycle(0)
+        rightmotorpwm_r.ChangeDutyCycle(0)
+    
+
+
 def setMotorRight(power):
    int(power)
    if power < 0:
@@ -136,12 +168,10 @@ def controleStart(queueKey=None, flag=None, quit=None):
                 key = "none"
 
             if key == "up":
-                vel_l = over(vel_l, CHANGE_VALUE)
-                vel_r = over(vel_r, CHANGE_VALUE)
+                vel_l = vel_r = setMotorUpDown(over(vel_l, CHANGE_VALUE))
 
             elif key == "down":
-                vel_l = over(vel_l, -CHANGE_VALUE)
-                vel_r = over(vel_r, -CHANGE_VALUE)
+               vel_l = vel_r = setMotorUpDown(over(vel_l, -CHANGE_VALUE))
                 
             elif key in ["left", "right"] and lastKey not in ["left", "right"]:
                 if key == "right":
@@ -160,8 +190,8 @@ def controleStart(queueKey=None, flag=None, quit=None):
 
             print(f"velocidade: left: {vel_l}  right: {vel_r}")
             
-            setMotorLeft(vel_l)
-            setMotorRight(vel_r)
+            # setMotorLeft(vel_l)
+            # setMotorRight(vel_r)
             lastKey = key
 
         print(f"velocidade: left: {vel_l}  right: {vel_r}")
