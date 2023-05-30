@@ -136,12 +136,10 @@ def controleStart(queueKey=None, flag=None, quit=None):
                 key = "none"
 
             if key == "up":
-                vel_l = over(vel_l, CHANGE_VALUE)
-                vel_r = over(vel_r, CHANGE_VALUE)
+                vel_l = vel_r = over(vel_l, CHANGE_VALUE)
 
             elif key == "down":
-                vel_l = over(vel_l, -CHANGE_VALUE)
-                vel_r = over(vel_r, -CHANGE_VALUE)
+                vel_l = vel_r = over(vel_l, -CHANGE_VALUE)
                 
             elif key in ["left", "right"] and lastKey not in ["left", "right"]:
                 if key == "right":
