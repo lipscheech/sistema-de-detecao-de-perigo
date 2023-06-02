@@ -1,6 +1,7 @@
 import cv2
 from numpy import float32, uint8, expand_dims
 from tensorflow.lite.python.interpreter import Interpreter
+from generateAttentionArea import createAttetionArea
 from time import time
 
 # def postprocess(frame, mask, WIDTH, HEIGHT):
@@ -28,7 +29,7 @@ from time import time
 
 #     return cv2.addWeighted(frame, .75, asarray(mask), .25, 0)
 
-def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, quit=None):
+def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit=None):
     assert quit != None and flag != None
 
     print("Starting model load")
@@ -44,11 +45,13 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
 
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FPS, FPS)
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, WIDTH)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, HEIGHT)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, imageSize[1])
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, imageSize[0])
 
     condition = False
-    count = 0
+
+    attetionArea = createAttetionArea(imageSize, top=150, bottom=230)
+    attentionPixels = attetionArea.sum() * .8
 
     print("Starting model loop")
     while not quit.is_set():
@@ -57,39 +60,29 @@ def run(PATH: str, FPS: int, WIDTH: int, HEIGHT: int, THREAD: int, flag=None, qu
         _, frame = cap.read()
 
         # PREPROCESS
-        pre_frame = cv2.resize(frame, (input_w, input_h), interpolation=cv2.INTER_AREA).astype(float32)
-        pre_frame = cv2.cvtColor(pre_frame, cv2.COLOR_BGR2RGB)
-        pre_frame = expand_dims(pre_frame, axis=0) / 127.5 - 1
+        pre_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB).astype(float32)
+        pre_frame = expand_dims(pre_frame, axis=0)
 
         # INFERENCE
         interpreter.set_tensor(input_index, pre_frame)
         interpreter.invoke()
-        mask = interpreter.get_tensor(output_index)[0].astype(uint8)
+        mask = interpreter.get_tensor(output_index)[0].astype(uint8) 
+        mask = (mask * attetionArea).sum()
 
         # POSTPROCESS
         # image = postprocess(frame, mask, WIDTH, HEIGHT)
         
-        #TODO: PUT BLOCK LOGIC
-        if count == 50:
-            if condition:
-                print("setting condition false")
-                condition = False
-            else:
-                print("setting condition true")
-                condition = True
-            count = 0
-        else:
-            count += 1
-
-        # (UN)BLOCK MOTOR
-        if condition and not flag.is_set():
-            flag.set()
+        if mask <= attentionPixels:
+            if ~flag.is_set():
+                print("setting block")
+                flag.set()
         elif flag.is_set():
+            print("setting free")
             flag.clear()
 
         fps = 1 / (time() - frame_time)
 
-        print(f"fps:{fps} blocked: {condition}" )
+        print(f"fps:{fps} blocked: {flag.is_set()}" )
         # cv2.putText(image, str(fps), (5, 16),
         #             cv2.FONT_HERSHEY_SIMPLEX, .75, (255, 255), 3, cv2.LINE_AA)
 
