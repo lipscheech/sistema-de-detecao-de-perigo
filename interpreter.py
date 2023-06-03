@@ -3,6 +3,7 @@ from numpy import float32, uint8, expand_dims
 from tensorflow.lite.python.interpreter import Interpreter
 from generateAttentionArea import createAttetionArea
 from time import time
+import os
 
 # def postprocess(frame, mask, WIDTH, HEIGHT):
 #     from PIL.Image import fromarray
@@ -36,6 +37,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
     interpreter = Interpreter(model_path=PATH, num_threads=THREAD)
     interpreter.allocate_tensors()
     print("Ending model load")
+    directory = r'/home/ubuntu/workspace/sistema-de-detecao-de-perigo/images'
 
     flag.set()
 
@@ -67,9 +69,9 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         interpreter.set_tensor(input_index, pre_frame)
         interpreter.invoke()
         mask = interpreter.get_tensor(output_index)[0].astype(uint8)
-
-        cv2.imwrite("./images/frame"+str(contSegmentation)+".png", frame)
-        cv2.imwrite("./images/mask"+str(contSegmentation)+".png", frame)
+        os.chdir(directory)
+        cv2.imwrite("frame"+str(contSegmentation)+".png", frame)
+        cv2.imwrite("mask"+str(contSegmentation)+".png", mask)
         contSegmentation += 1
 
         mask = (mask * attetionArea).sum()
