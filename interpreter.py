@@ -69,7 +69,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         mask = interpreter.get_tensor(output_index)[0].astype(uint8)
 
         cv2.imwrite("images/frame"+str(contSegmentation)+".png", frame)
-        cv2.imwrite("images/mask"+str(contSegmentation)+".png", frame
+        cv2.imwrite("images/mask"+str(contSegmentation)+".png", frame)
         contSegmentation += 1
 
         mask = (mask * attetionArea).sum()
