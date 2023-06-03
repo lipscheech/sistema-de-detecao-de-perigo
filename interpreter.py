@@ -69,9 +69,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         interpreter.set_tensor(input_index, pre_frame)
         interpreter.invoke()
         mask = interpreter.get_tensor(output_index)[0].astype(uint8)
-        cv2.imwrite("frame"+str(contSegmentation)+".png", frame)
-        cv2.imwrite("mask"+str(contSegmentation)+".png", mask)
-        contSegmentation += 1
+        
 
         mask = (mask * attetionArea).sum()
 
@@ -91,6 +89,11 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         print(f"fps:{fps} blocked: {flag.is_set()}" )
         # cv2.putText(image, str(fps), (5, 16),
         #             cv2.FONT_HERSHEY_SIMPLEX, .75, (255, 255), 3, cv2.LINE_AA)
+
+        os.chdir(directory)
+        cv2.imwrite("frame"+str(contSegmentation)+".png", frame)
+        cv2.imwrite("mask"+str(contSegmentation)+".png", mask)
+        contSegmentation += 1
 
     print("Ending model loop")
     cap.release()
