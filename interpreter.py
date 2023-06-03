@@ -86,7 +86,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         # cv2.putText(image, str(fps), (5, 16),
         #             cv2.FONT_HERSHEY_SIMPLEX, .75, (255, 255), 3, cv2.LINE_AA)
 
-        cv2.imwrite("segmentation", frame)
+        cv2.imwrite("segmentation.png", frame)
     print("Ending model loop")
     cap.release()
     cv2.destroyAllWindows()
