@@ -69,7 +69,6 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         interpreter.set_tensor(input_index, pre_frame)
         interpreter.invoke()
         mask = interpreter.get_tensor(output_index)[0].astype(uint8)
-        os.chdir(directory)
         cv2.imwrite("frame"+str(contSegmentation)+".png", frame)
         cv2.imwrite("mask"+str(contSegmentation)+".png", mask)
         contSegmentation += 1
