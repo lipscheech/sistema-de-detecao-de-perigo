@@ -31,7 +31,7 @@ from time import time
 
 def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit=None):
     assert quit != None and flag != None
-
+    contSegmentation = 0
     print("Starting model load")
     interpreter = Interpreter(model_path=PATH, num_threads=THREAD)
     interpreter.allocate_tensors()
@@ -85,8 +85,8 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         print(f"fps:{fps} blocked: {flag.is_set()}" )
         # cv2.putText(image, str(fps), (5, 16),
         #             cv2.FONT_HERSHEY_SIMPLEX, .75, (255, 255), 3, cv2.LINE_AA)
-
-        cv2.imwrite("segmentation.png", frame)
+        cv2.imwrite("segmentation"+str(contSegmentation)+"+.png", frame)
+        contSegmentation += 1
     print("Ending model loop")
     cap.release()
     cv2.destroyAllWindows()
