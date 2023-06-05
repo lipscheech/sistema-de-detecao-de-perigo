@@ -57,8 +57,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
     condition = False
 
     attetionArea = createAttetionArea(imageSize, top=150, bottom=230)
-    cv2.imwrite(os.path.join(path, "attentionArea.png"), attetionArea[150:231, :, 1])
-    break
+
     attentionPixels = attetionArea.sum() * .8
 
     print("Starting model loop")
@@ -78,11 +77,11 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         
         # cv2.imwrite(os.path.join(path, "frame"+str(contSegmentation)+".png"), frame)
         # cv2.imwrite(os.path.join(path,"mask"+str(contSegmentation)+".png"), mask)
-        mask = (mask * attetionArea).sum()
+        # mask = (mask * attetionArea).sum()
 
         # POSTPROCESS
         # image = postprocess(frame, mask, WIDTH, HEIGHT)
-        if mask <= attentionPixels:
+        if 17000 <= attentionPixels:
             if ~flag.is_set():
                 print("setting block")
                 flag.set()
