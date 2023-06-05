@@ -75,7 +75,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
 
         # POSTPROCESS
         # image = postprocess(frame, mask, WIDTH, HEIGHT)
-        
+        56
         if mask <= attentionPixels:
             if ~flag.is_set():
                 print("setting block")
@@ -90,7 +90,6 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         # cv2.putText(image, str(fps), (5, 16),
         #             cv2.FONT_HERSHEY_SIMPLEX, .75, (255, 255), 3, cv2.LINE_AA)
 
-        os.chdir(directory)
         cv2.imwrite("frame"+str(contSegmentation)+".png", frame)
         cv2.imwrite("mask"+str(contSegmentation)+".png", mask)
         contSegmentation += 1
