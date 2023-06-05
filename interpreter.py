@@ -33,28 +33,25 @@ from datetime import datetime
 
 def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit=None):
     assert quit != None and flag != None
-    contSegmentation = 0
+    #contSegmentation = 0
     print("Starting model load")
     interpreter = Interpreter(model_path=PATH, num_threads=THREAD)
     interpreter.allocate_tensors()
     print("Ending model load")
-    path = '/home/ubuntu/workspace/sistema-de-detecao-de-perigo/images'
-    arquivo = open("log.txt", "w")
-    dt = datetime.now()
+    #path = '/home/ubuntu/workspace/sistema-de-detecao-de-perigo/images'
+    #arquivo = open("log.txt", "w")
+    #dt = datetime.now()
     # arquivo.write("Iniciando o programa - "+str(dt.strftime('%c'))+"\n");
 
     flag.set()
 
     output_index = interpreter.get_output_details()[0]['index']
     input_index = interpreter.get_input_details()[0]['index']
-    input_w, input_h = interpreter.get_input_details()[0]["shape"][1:3]
 
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FPS, FPS)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, imageSize[1])
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, imageSize[0])
-
-    condition = False
 
     # attetionArea = createAttetionArea(imageSize, top=150, bottom=230)
     attentionPixels =  10000 #attetionArea.sum() * .8
@@ -94,12 +91,12 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         # cv2.putText(image, str(fps), (5, 16),
         #             cv2.FONT_HERSHEY_SIMPLEX, .75, (255, 255), 3, cv2.LINE_AA)
 
-        contSegmentation += 1
+        #contSegmentation += 1
         # arquivo.write("FPS: "+str(fps)+"\n");
 
-    dt = datetime.now()
+    #dt = datetime.now()
     # arquivo.write("Finalizando o programa - "+str(dt.strftime('%c'))+"\n")
-    arquivo.close()
+    #arquivo.close()
     print("Ending model loop")
     cap.release()
     cv2.destroyAllWindows()
