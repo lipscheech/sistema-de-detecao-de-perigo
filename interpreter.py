@@ -37,7 +37,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
     interpreter = Interpreter(model_path=PATH, num_threads=THREAD)
     interpreter.allocate_tensors()
     print("Ending model load")
-    path = '/images'
+    path = '/home/ubuntu/workspace/sistema-de-detecao-de-perigo/images'
 
     flag.set()
 
