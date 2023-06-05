@@ -41,7 +41,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
     path = '/home/ubuntu/workspace/sistema-de-detecao-de-perigo/images'
     arquivo = open("log.txt", "w")
     dt = datetime.now()
-    arquivo.write("Iniciando o programa"+str(dt.strftime('%C'))+"\n");
+    arquivo.write("Iniciando o programa - "+str(dt.strftime('%c'))+"\n");
 
     flag.set()
 
@@ -98,7 +98,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         arquivo.write("FPS: "+str(fps)+"\n");
 
     dt = datetime.now()
-    arquivo.write("Finalizando o programa"+str(dt.strftime('%C'))+"\n")
+    arquivo.write("Finalizando o programa - "+str(dt.strftime('%c'))+"\n")
     arquivo.close()
     print("Ending model loop")
     cap.release()
