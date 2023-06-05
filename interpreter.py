@@ -76,7 +76,6 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
 
         # POSTPROCESS
         # image = postprocess(frame, mask, WIDTH, HEIGHT)
-        56
         if mask <= attentionPixels:
             if ~flag.is_set():
                 print("setting block")
