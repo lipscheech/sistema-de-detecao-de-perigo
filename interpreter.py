@@ -38,6 +38,8 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
     interpreter.allocate_tensors()
     print("Ending model load")
     path = '/home/ubuntu/workspace/sistema-de-detecao-de-perigo/images'
+    arquivo = open("log.txt", "w")
+    arquivo.write("Iniciando o programa"+str(time())+"\n");
 
     flag.set()
 
@@ -91,7 +93,10 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         #             cv2.FONT_HERSHEY_SIMPLEX, .75, (255, 255), 3, cv2.LINE_AA)
 
         contSegmentation += 1
+        arquivo.write("FPS: "+str(fps)+"\n");
 
+    arquivo.write("Finalizando o programa"+str(time())+"\n");
+    arquivo.close()
     print("Ending model loop")
     cap.release()
     cv2.destroyAllWindows()
