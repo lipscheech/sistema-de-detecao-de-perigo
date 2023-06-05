@@ -57,6 +57,8 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
     condition = False
 
     attetionArea = createAttetionArea(imageSize, top=150, bottom=230)
+    cv2.imwrite(os.path.join(path, "attentionArea.png"), attetionArea[150:231, :, 1])
+    break
     attentionPixels = attetionArea.sum() * .8
 
     print("Starting model loop")
