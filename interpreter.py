@@ -37,7 +37,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
     interpreter = Interpreter(model_path=PATH, num_threads=THREAD)
     interpreter.allocate_tensors()
     print("Ending model load")
-    directory = r'/home/ubuntu/workspace/sistema-de-detecao-de-perigo/images'
+    path = '/images'
 
     flag.set()
 
@@ -70,7 +70,8 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         interpreter.invoke()
         mask = interpreter.get_tensor(output_index)[0].astype(uint8)
         
-
+        cv2.imwrite(os.path.join(path, "frame"+str(contSegmentation)+".png"), frame)
+        cv2.imwrite(os.path.join(path,"mask"+str(contSegmentation)+".png"), mask)
         mask = (mask * attetionArea).sum()
 
         # POSTPROCESS
@@ -90,7 +91,6 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         # cv2.putText(image, str(fps), (5, 16),
         #             cv2.FONT_HERSHEY_SIMPLEX, .75, (255, 255), 3, cv2.LINE_AA)
 
-        cv2.imwrite("frame"+str(contSegmentation)+".png", frame)
         contSegmentation += 1
 
     print("Ending model loop")
