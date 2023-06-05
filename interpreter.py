@@ -70,8 +70,8 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         interpreter.invoke()
         mask = interpreter.get_tensor(output_index)[0].astype(uint8)
         
-        cv2.imwrite(os.path.join(path, "frame"+str(contSegmentation)+".png"), frame)
-        cv2.imwrite(os.path.join(path,"mask"+str(contSegmentation)+".png"), mask)
+        # cv2.imwrite(os.path.join(path, "frame"+str(contSegmentation)+".png"), frame)
+        # cv2.imwrite(os.path.join(path,"mask"+str(contSegmentation)+".png"), mask)
         mask = (mask * attetionArea).sum()
 
         # POSTPROCESS
