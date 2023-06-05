@@ -4,6 +4,7 @@ from tensorflow.lite.python.interpreter import Interpreter
 from generateAttentionArea import createAttetionArea
 from time import time
 import os
+from datetime import datetime
 
 # def postprocess(frame, mask, WIDTH, HEIGHT):
 #     from PIL.Image import fromarray
@@ -39,7 +40,8 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
     print("Ending model load")
     path = '/home/ubuntu/workspace/sistema-de-detecao-de-perigo/images'
     arquivo = open("log.txt", "w")
-    arquivo.write("Iniciando o programa"+str(time())+"\n");
+    dt = datetime.now()
+    arquivo.write("Iniciando o programa"+str(dt.strftime('%C'))+"\n");
 
     flag.set()
 
@@ -95,7 +97,8 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         contSegmentation += 1
         arquivo.write("FPS: "+str(fps)+"\n");
 
-    arquivo.write("Finalizando o programa"+str(time())+"\n");
+    dt = datetime.now()
+    arquivo.write("Finalizando o programa"+str(dt.strftime('%C'))+"\n")
     arquivo.close()
     print("Ending model loop")
     cap.release()
