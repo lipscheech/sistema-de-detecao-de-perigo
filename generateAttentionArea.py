@@ -1,4 +1,4 @@
-from numpy import ones, tril, flip, byte
+from numpy import ones, tril, flip, uint8
 
 def createAttetionArea(shape, top=150, bottom=230):
     maskCut = ones(shape)
@@ -8,4 +8,4 @@ def createAttetionArea(shape, top=150, bottom=230):
     maskCut[:top, :] = 0
     maskCut[bottom:, :] = 0
 
-    return maskCut.astype(byte)
+    return maskCut.astype(uint8)
