@@ -41,7 +41,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
     path = '/home/ubuntu/workspace/sistema-de-detecao-de-perigo/images'
     arquivo = open("log.txt", "w")
     dt = datetime.now()
-    arquivo.write("Iniciando o programa - "+str(dt.strftime('%c'))+"\n");
+    # arquivo.write("Iniciando o programa - "+str(dt.strftime('%c'))+"\n");
 
     flag.set()
 
@@ -56,9 +56,8 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
 
     condition = False
 
-    attetionArea = createAttetionArea(imageSize, top=150, bottom=230)
-
-    attentionPixels = attetionArea.sum() * .8
+    # attetionArea = createAttetionArea(imageSize, top=150, bottom=230)
+    attentionPixels =  10000 #attetionArea.sum() * .8
 
     print("Starting model loop")
     while not quit.is_set():
@@ -81,7 +80,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
 
         # POSTPROCESS
         # image = postprocess(frame, mask, WIDTH, HEIGHT)
-        if 17000 <= attentionPixels:
+        if 16000 <= attentionPixels:
             if ~flag.is_set():
                 print("setting block")
                 flag.set()
@@ -96,10 +95,10 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         #             cv2.FONT_HERSHEY_SIMPLEX, .75, (255, 255), 3, cv2.LINE_AA)
 
         contSegmentation += 1
-        arquivo.write("FPS: "+str(fps)+"\n");
+        # arquivo.write("FPS: "+str(fps)+"\n");
 
     dt = datetime.now()
-    arquivo.write("Finalizando o programa - "+str(dt.strftime('%c'))+"\n")
+    # arquivo.write("Finalizando o programa - "+str(dt.strftime('%c'))+"\n")
     arquivo.close()
     print("Ending model loop")
     cap.release()
