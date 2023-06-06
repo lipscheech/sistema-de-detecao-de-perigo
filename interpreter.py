@@ -62,8 +62,6 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
 
     print("Starting model loop")
     while not quit.is_set():
-        frame_time = time()
-
         _, frame = cap.read()
 
         # PREPROCESS
@@ -72,7 +70,9 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
 
         # INFERENCE
         interpreter.set_tensor(input_index, pre_frame)
-        interpreter.invoke()
+        frame_time = time()
+        interpreter.invoke() 
+        fps = 1 / (time() - frame_time)
         mask = interpreter.get_tensor(output_index)[0].astype(uint8)
         mask = argmax(mask, axis=-1)
         
@@ -89,7 +89,6 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
             print("setting free")
             flag.clear()
 
-        fps = 1 / (time() - frame_time)
 
         print(f"fps:{fps} blocked: {flag.is_set()}" )
 
