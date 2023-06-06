@@ -66,7 +66,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
 
         # PREPROCESS
         pre_frame = cv2.resize(frame, (imageSize[1], imageSize[0]), interpolation=cv2.INTER_AREA)
-        pre_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB).astype(float32)
+        pre_frame = cv2.cvtColor(pre_frame, cv2.COLOR_BGR2RGB).astype(float32)
         pre_frame = expand_dims(pre_frame, axis=0) / 127.5 - 1
 
         # INFERENCE
