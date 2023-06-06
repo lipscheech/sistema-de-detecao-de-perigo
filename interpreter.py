@@ -53,8 +53,8 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, imageSize[1])
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, imageSize[0])
 
-    # attetionArea = createAttetionArea(imageSize, top=150, bottom=230)
-    attentionPixels =  10000 #attetionArea.sum() * .8
+    attetionArea = createAttetionArea(imageSize, top=150, bottom=230)
+    attentionPixels =  attetionArea.sum() * .8
 
     print("Starting model loop")
     while not quit.is_set():
@@ -74,11 +74,10 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         
         # cv2.imwrite(os.path.join(path, "frame"+str(contSegmentation)+".png"), frame)
         # cv2.imwrite(os.path.join(path,"mask"+str(contSegmentation)+".png"), mask)
-        # mask = (mask * attetionArea).sum()
+        mask = (mask * attetionArea).sum()
 
         # POSTPROCESS
-        # image = postprocess(frame, mask, WIDTH, HEIGHT)
-        if 16000 <= attentionPixels:
+        if mask <= attentionPixels:
             if ~flag.is_set():
                 print("setting block")
                 flag.set()
@@ -89,8 +88,6 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         fps = 1 / (time() - frame_time)
 
         print(f"fps:{fps} blocked: {flag.is_set()}" )
-        # cv2.putText(image, str(fps), (5, 16),
-        #             cv2.FONT_HERSHEY_SIMPLEX, .75, (255, 255), 3, cv2.LINE_AA)
 
         #contSegmentation += 1
         # arquivo.write("FPS: "+str(fps)+"\n");
