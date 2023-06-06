@@ -77,7 +77,6 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         interpreter.invoke() 
         fps = 1 / (time() - frame_time)
         mask = interpreter.get_tensor(output_index)[0].astype(uint8)
-        mask = argmax(mask, axis=-1)
         
         # cv2.imwrite(os.path.join(path, "frame"+str(contSegmentation)+".png"), frame)
         # cv2.imwrite(os.path.join(path,"mask"+str(contSegmentation)+".png"), mask)
