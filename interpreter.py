@@ -1,5 +1,5 @@
 import cv2
-from numpy import float32, uint8, expand_dims
+from numpy import float32, uint8, expand_dims, argmax
 from tensorflow.lite.python.interpreter import Interpreter
 from generateAttentionArea import createAttetionArea
 from time import time
@@ -48,10 +48,14 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
     output_index = interpreter.get_output_details()[0]['index']
     input_index = interpreter.get_input_details()[0]['index']
 
+
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FPS, FPS)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, imageSize[1])
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, imageSize[0])
+
+
+    print(cap.get(cv2.CAP_PROP_FRAME_WIDTH),cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
     attetionArea = createAttetionArea(imageSize, top=150, bottom=230)
     attentionPixels =  attetionArea.sum() * .8
@@ -63,14 +67,14 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         _, frame = cap.read()
 
         # PREPROCESS
-        pre_frame = cv2.resize(frame, (imageSize[0], imageSize[1]), interpolation=cv2.INTER_AREA).astype(float32)
-        pre_frame = cv2.cvtColor(pre_frame, cv2.COLOR_BGR2RGB)
+        pre_frame = cv2.cvtColor(pre_frame, cv2.COLOR_BGR2RGB).astype(float32)
         pre_frame = expand_dims(pre_frame, axis=0) / 127.5 - 1
 
         # INFERENCE
         interpreter.set_tensor(input_index, pre_frame)
         interpreter.invoke()
         mask = interpreter.get_tensor(output_index)[0].astype(uint8)
+        mask = argmax(mask, axis=-1)
         
         # cv2.imwrite(os.path.join(path, "frame"+str(contSegmentation)+".png"), frame)
         # cv2.imwrite(os.path.join(path,"mask"+str(contSegmentation)+".png"), mask)
