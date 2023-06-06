@@ -63,9 +63,9 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         _, frame = cap.read()
 
         # PREPROCESS
-        pre_frame = cv2.resize(frame, (imageSize[0], imageSize[1]), cv2.INTER_NEAREST).astype(float32)
-        pre_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) / 127.5 - 1
-        pre_frame = expand_dims(pre_frame, axis=0)
+        pre_frame = cv2.resize(frame, (imageSize[0], imageSize[1]), interpolation=cv2.INTER_AREA).astype(float32)
+        pre_frame = cv2.cvtColor(pre_frame, cv2.COLOR_BGR2RGB)
+        pre_frame = expand_dims(pre_frame, axis=0) / 127.5 - 1
 
         # INFERENCE
         interpreter.set_tensor(input_index, pre_frame)
