@@ -65,6 +65,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         _, frame = cap.read()
 
         # PREPROCESS
+        pre_frame = cv2.resize(frame, (imageSize[1], imageSize[0]), interpolation=cv2.INTER_AREA)
         pre_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB).astype(float32)
         pre_frame = expand_dims(pre_frame, axis=0) / 127.5 - 1
 
@@ -74,7 +75,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         interpreter.invoke() 
         fps = 1 / (time() - frame_time)
         mask = interpreter.get_tensor(output_index)[0].astype(uint8)
-        mask = argmax(mask, axis=-1)
+        # mask = argmax(mask, axis=-1)
         
         # cv2.imwrite(os.path.join(path, "frame"+str(contSegmentation)+".png"), frame)
         # cv2.imwrite(os.path.join(path,"mask"+str(contSegmentation)+".png"), mask)
