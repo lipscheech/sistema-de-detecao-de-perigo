@@ -62,20 +62,18 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
 
     print("Starting model loop")
     while not quit.is_set():
+        frame_time = time()
+
         _, frame = cap.read()
 
         # PREPROCESS
 
-        pre_frame = cv2.resize(frame, (imageSize[1], imageSize[0]), interpolation=cv2.INTER_AREA)
-        pre_frame = cv2.cvtColor(pre_frame, cv2.COLOR_BGR2RGB).astype(float32)
-        pre_frame = expand_dims(pre_frame, axis=0) / 127.5 - 1
-        print(frame.shape, pre_frame.shape)
+        pre_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB).astype(float32)
+        pre_frame = expand_dims(pre_frame, axis=0)
 
         # INFERENCE
         interpreter.set_tensor(input_index, pre_frame)
-        frame_time = time()
-        interpreter.invoke() 
-        fps = 1 / (time() - frame_time)
+        interpreter.invoke()
         mask = interpreter.get_tensor(output_index)[0].astype(uint8)
         
         # cv2.imwrite(os.path.join(path, "frame"+str(contSegmentation)+".png"), frame)
@@ -91,7 +89,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
             print("setting free")
             flag.clear()
 
-
+        fps = 1 / (time() - frame_time)
         print(f"fps:{fps} blocked: {flag.is_set()}" )
 
         #contSegmentation += 1
