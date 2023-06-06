@@ -14,7 +14,7 @@ print("Creating Model Thread")
 startInterpreterThread = Thread(
     target=run,
     args=([
-    "fold_0_alpha_0.5_lr_1e-04_regularizer_l1_1e-04_l2_1e-05.tflite",
+    "last_model.ckpt.tflite",
     30, (240, 320), 4, flag, quit])
     )
 
