@@ -33,12 +33,12 @@ from datetime import datetime
 
 def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit=None):
     assert quit != None and flag != None
-    #contSegmentation = 0
+    contSegmentation = 0
     print("Starting model load")
     interpreter = Interpreter(model_path=PATH, num_threads=THREAD)
     interpreter.allocate_tensors()
     print("Ending model load")
-    #path = '/home/ubuntu/workspace/sistema-de-detecao-de-perigo/images'
+    path = '/home/ubuntu/workspace/sistema-de-detecao-de-perigo/images'
     #arquivo = open("log.txt", "w")
     #dt = datetime.now()
     # arquivo.write("Iniciando o programa - "+str(dt.strftime('%c'))+"\n");
@@ -76,8 +76,8 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         interpreter.invoke()
         mask = interpreter.get_tensor(output_index)[0].astype(uint8)
         
-        # cv2.imwrite(os.path.join(path, "frame"+str(contSegmentation)+".png"), frame)
-        # cv2.imwrite(os.path.join(path,"mask"+str(contSegmentation)+".png"), mask)
+        cv2.imwrite(os.path.join(path, "frame"+str(contSegmentation)+".png"), frame)
+        cv2.imwrite(os.path.join(path,"mask"+str(contSegmentation)+".png"), mask)
         mask = (mask * attetionArea).sum()
 
         # POSTPROCESS
