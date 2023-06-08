@@ -14,7 +14,7 @@ print("Creating Model Thread")
 startInterpreterThread = Thread(
     target=run,
     args=([
-    "VERTICAL_FLIP_False.tflite",
+    "VERTICAL_FLIP_True.tflite",
     30, (240, 320), 4, flag, quit])
     )
 
