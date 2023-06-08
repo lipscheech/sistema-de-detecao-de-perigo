@@ -92,7 +92,7 @@ def run(PATH: str, FPS: int, imageSize: (int, int), THREAD: int, flag=None, quit
         fps = 1 / (time() - frame_time)
         print(f"fps:{fps} blocked: {flag.is_set()}" )
 
-        #contSegmentation += 1
+        contSegmentation += 1
         # arquivo.write("FPS: "+str(fps)+"\n");
 
     #dt = datetime.now()
