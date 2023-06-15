@@ -1,0 +1,4 @@
+model 2 - separable conv 256, upsample, conv classes
+model 3 - separable conv 256, conv classes, upsample
+model 4 - separable conv 256*alfa, separable conv (256*alfa) / 2, upsample, separable conv classes
+model 5 - separable conv 256*alfa, separable conv (256*alfa) / 4, upsample, separable conv classes
