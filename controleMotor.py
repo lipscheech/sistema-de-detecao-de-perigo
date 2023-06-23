@@ -148,13 +148,13 @@ def controleStart(queueKey=None, flag=None, quit=None):
                 elif key == "left":
                     vel_l = over(vel_l, 2)
                     vel_r = over(vel_l, 1)
-            # else:
-            #     if vel_l > 0:
-            #         vel_l = over(vel_l, -CHANGE_VALUE)
-            #         vel_r = over(vel_r, -CHANGE_VALUE)
-            #     elif vel_r < 0:
-            #         vel_l = over(vel_l, CHANGE_VALUE)
-            #         vel_r = over(vel_r, CHANGE_VALUE)
+            else:
+                if vel_l > 0:
+                    vel_l = over(vel_l, -CHANGE_VALUE)
+                    vel_r = over(vel_r, -CHANGE_VALUE)
+                elif vel_r < 0:
+                    vel_l = over(vel_l, CHANGE_VALUE)
+                    vel_r = over(vel_r, CHANGE_VALUE)
 
             print(f"velocidade: left: {vel_l}  right: {vel_r}")
             
