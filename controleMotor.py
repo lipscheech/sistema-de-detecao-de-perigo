@@ -163,6 +163,7 @@ def controleStart(queueKey=None, flag=None, quit=None):
             lastKey = key
         else:
             vel_l = vel_r = 0
+            print('parando')
         print(f"velocidade: left: {vel_l}  right: {vel_r}")
     print("Ending motor and closing")
     exit()
