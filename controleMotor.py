@@ -122,7 +122,7 @@ CHANGE_VALUE = 5
 def controleStart(queueKey=None, flag=None, quit=None):
     print("Starting motor")
 
-    vel_l = vel_r = 0
+    vel_l = vel_r = 10
     key = lastkey = "none"
 
     while not quit.is_set():
